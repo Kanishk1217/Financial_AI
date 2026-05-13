@@ -2,13 +2,14 @@ import { useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { motion, useInView, AnimatePresence } from 'framer-motion'
 import {
-  Wallet, Brain, TrendingUp, BarChart2, Shield,
+  Brain, TrendingUp, BarChart2, Shield,
   ArrowRight, Sparkles, Check, ArrowUpRight, ChevronDown,
   DollarSign, Target, AlertTriangle, RefreshCw,
 } from 'lucide-react'
 import { ElegantShape } from '@/components/ui/shape-landing-hero'
 import { Spotlight } from '@/components/ui/Spotlight'
 import { MagneticButton } from '@/components/ui/MagneticButton'
+import { LogoMark } from '@/components/ui/Logo'
 import { useLenis } from '@/lib/useLenis'
 
 /* ── feature data ─────────────────────────────────── */
@@ -241,13 +242,8 @@ export default function Landing() {
         }}
       >
         {/* Logo */}
-        <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: 9, textDecoration: 'none' }}>
-          <div style={{
-            width: 28, height: 28, borderRadius: 7,
-            background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
-          }}>
-            <Wallet size={13} color="#000" />
-          </div>
+        <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none' }}>
+          <LogoMark size={30} radius={8} />
           <span style={{ fontSize: 13, fontWeight: 700, color: '#fff', letterSpacing: '-0.02em' }}>
             FinanceAI
           </span>
@@ -625,11 +621,8 @@ export default function Landing() {
           }} />
 
           <div style={{ position: 'relative', zIndex: 1 }}>
-            <div style={{
-              width: 44, height: 44, borderRadius: 12, background: '#fff',
-              display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 28px',
-            }}>
-              <Wallet size={18} color="#000" />
+            <div style={{ display: 'flex', justifyContent: 'center', margin: '0 auto 28px' }}>
+              <LogoMark size={56} radius={14} />
             </div>
 
             <h2 style={{ fontSize: 'clamp(32px, 5vw, 56px)', fontWeight: 900, letterSpacing: '-0.04em', lineHeight: 1, margin: '0 0 16px' }}>
@@ -661,9 +654,7 @@ export default function Landing() {
         display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12,
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <div style={{ width: 20, height: 20, borderRadius: 5, background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <Wallet size={10} color="#000" />
-          </div>
+          <LogoMark size={22} radius={6} glow={false} animated={false} />
           <span style={{ fontSize: 13, fontWeight: 700, color: 'rgba(255,255,255,0.7)' }}>FinanceAI</span>
         </div>
         <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.55)' }}>© 2025 FinanceAI · FastAPI + React</span>

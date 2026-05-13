@@ -2,9 +2,10 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Eye, EyeOff, Loader2, Wallet, TrendingUp, BarChart2, Brain, Shield, Check } from 'lucide-react'
+import { Eye, EyeOff, Loader2, TrendingUp, BarChart2, Brain, Shield, Check } from 'lucide-react'
 import { authAPI } from '@/lib/api'
 import { useAuthStore } from '@/store/authStore'
+import { LogoMark } from '@/components/ui/Logo'
 
 /* ── Glass input wrapper (from new sign-in component) ── */
 function GlassField({
@@ -217,10 +218,8 @@ export default function Login() {
         <div style={{ width: '100%', maxWidth: 400 }}>
 
           {/* Logo */}
-          <Link to="/" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, textDecoration: 'none', marginBottom: 40 }}>
-            <div style={{ width: 28, height: 28, borderRadius: 8, background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <Wallet size={12} color="#000" />
-            </div>
+          <Link to="/" style={{ display: 'inline-flex', alignItems: 'center', gap: 10, textDecoration: 'none', marginBottom: 40 }}>
+            <LogoMark size={32} radius={9} />
             <span style={{ fontSize: 14, fontWeight: 700, color: '#fff', letterSpacing: '-0.02em' }}>FinanceAI</span>
           </Link>
 

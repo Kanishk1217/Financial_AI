@@ -35,7 +35,8 @@ _snap.cjs
 _snap.js
 
 # OneDrive cruft
-"@"
+@/
+k
 
 # Misc
 *.suo
