@@ -1,0 +1,25 @@
+  <!DOCTYPE html>
+  <html>
+  <head>
+    <script src="https://cdn.plaid.com/link/v2/stable/link-initialize.js"></script>
+  </head>
+  <body>
+    <button onclick="openPlaid()">Connect Bank</button>
+    <p id="token-display"></p>
+
+    <script>
+      async function openPlaid() {
+        const res = await fetch("http://127.0.0.1:8000/create_link_token", { method: "POST" });
+        const data = await res.json();
+
+        const handler = Plaid.create({
+          token: data.link_token,
+          onSuccess: function(public_token) {
+            document.getElementById("token-display").innerText = "Public token: " + public_token;
+          }
+        });
+        handler.open();
+      }
+    </script>
+  </body>
+  </html>
