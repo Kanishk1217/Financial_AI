@@ -12,6 +12,7 @@ export function FinCard({
   innerStyle,
   padding = 20,
   radius = 16,
+  glowColor,
 }: {
   children: ReactNode
   className?: string
@@ -19,11 +20,17 @@ export function FinCard({
   innerStyle?: CSSProperties
   padding?: number
   radius?: number
+  /** Optional tinted glow; pass a hex/rgb color to add a soft colored shadow. */
+  glowColor?: string
 }) {
   return (
     <div
       className={`fin-card ${className}`}
-      style={{ borderRadius: radius, ...style }}
+      style={{
+        borderRadius: radius,
+        ...(glowColor ? { boxShadow: `0 8px 32px ${glowColor}22` } : {}),
+        ...style,
+      }}
     >
       <div style={{ padding, ...innerStyle }}>
         {children}
