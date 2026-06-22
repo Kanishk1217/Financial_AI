@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback, useRef, useMemo } from 'react'
-import { motion } from 'framer-motion'
+import { motion } from 'motion/react'
 import { useSearchParams } from 'react-router-dom'
 import confetti from 'canvas-confetti'
 import {
@@ -108,8 +108,8 @@ function SearchBox({ value, onChange }: { value: string; onChange: (v: string) =
         onFocus={() => setF(true)} onBlur={() => setF(false)}
         style={{
           width: '100%', paddingLeft: 34, paddingRight: 14, paddingTop: 9, paddingBottom: 9,
-          borderRadius: 11, fontSize: 13, color: '#fff', outline: 'none',
-          background: f ? 'rgba(255,255,255,0.07)' : 'rgba(255,255,255,0.04)',
+          borderRadius: 11, fontSize: 13, color: 'var(--ink)', outline: 'none',
+          background: f ? 'var(--parchment)' : 'var(--surface)',
           border: `1px solid ${f ? 'rgba(255,255,255,0.18)' : 'rgba(255,255,255,0.09)'}`,
           transition: 'border-color 0.2s, background 0.2s',
         }}
@@ -132,17 +132,17 @@ function Field(props: {
   const [f, setF] = useState(false)
   return (
     <div>
-      <label style={{ fontSize: 11, fontWeight: 600, color: 'rgba(255,255,255,0.6)', display: 'block', marginBottom: 6, letterSpacing: '0.06em', textTransform: 'uppercase' }}>{label}</label>
+      <label style={{ fontSize: 11, fontWeight: 600, color: 'var(--ink-secondary)', display: 'block', marginBottom: 6, letterSpacing: '0.06em', textTransform: 'uppercase' }}>{label}</label>
       <input type={type} value={value} step={step} placeholder={placeholder}
         autoFocus={autoFocus}
         onFocus={() => setF(true)} onBlur={() => setF(false)}
         onChange={e => onChange(e.target.value)}
         style={{
           width: '100%', padding: '11px 14px', borderRadius: 12,
-          background: f ? 'rgba(255,255,255,0.07)' : 'rgba(255,255,255,0.04)',
+          background: f ? 'var(--parchment)' : 'var(--surface)',
           border: `1px solid ${f ? 'rgba(255,255,255,0.18)' : 'rgba(255,255,255,0.09)'}`,
-          color: '#fff', fontSize: 14, outline: 'none',
-          transition: 'border-color 0.2s, background 0.2s', colorScheme: 'dark',
+          color: 'var(--ink)', fontSize: 14, outline: 'none',
+          transition: 'border-color 0.2s, background 0.2s', 
         }} />
     </div>
   )
@@ -215,7 +215,7 @@ function TxModal(props: {
   return (
     <div
       onClick={e => e.target === e.currentTarget && onClose()}
-      style={{ position: 'fixed', inset: 0, zIndex: 200, background: 'rgba(0,0,0,0.78)', backdropFilter: 'blur(14px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 24 }}
+      style={{ position: 'fixed', inset: 0, zIndex: 200, background: 'rgba(24,21,16,0.55)',  display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 24 }}
     >
       <motion.div
         initial={{ opacity: 0, scale: 0.93, y: 18 }} animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -224,17 +224,17 @@ function TxModal(props: {
       >
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 22 }}>
           <div>
-            <h2 style={{ fontSize: 17, fontWeight: 800, color: '#fff', letterSpacing: '-0.02em', margin: 0 }}>
+            <h2 style={{ fontSize: 17, fontWeight: 800, color: 'var(--ink)', letterSpacing: '-0.02em', margin: 0 }}>
               {initial ? 'Edit Transaction' : 'Add Transaction'}
             </h2>
-            <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.55)', margin: '3px 0 0' }}>
+            <p style={{ fontSize: 12, color: 'var(--ink-muted)', margin: '3px 0 0' }}>
               {initial ? 'Update this entry' : 'Record a new entry'}
             </p>
           </div>
-          <button onClick={onClose} style={{ width: 30, height: 30, borderRadius: 9, border: '1px solid rgba(255,255,255,0.12)', background: 'rgba(255,255,255,0.05)', cursor: 'pointer', color: 'rgba(255,255,255,0.7)', fontSize: 14 }}>✕</button>
+          <button onClick={onClose} style={{ width: 30, height: 30, borderRadius: 9, border: '1px solid rgba(255,255,255,0.12)', background: 'var(--parchment)', cursor: 'pointer', color: 'var(--ink-secondary)', fontSize: 14 }}>✕</button>
         </div>
 
-        <div style={{ display: 'flex', gap: 4, padding: 4, borderRadius: 12, background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.09)', marginBottom: 18 }}>
+        <div style={{ display: 'flex', gap: 4, padding: 4, borderRadius: 12, background: 'var(--parchment)', border: '1px solid rgba(255,255,255,0.09)', marginBottom: 18 }}>
           {(['expense', 'income'] as const).map(t => (
             <button key={t} type="button"
               onClick={() => setForm(p => ({ ...p, type: t, category: t === 'income' ? 'Income' : 'Food' }))}
@@ -250,7 +250,7 @@ function TxModal(props: {
           <Field label="Date" type="date" value={form.date} onChange={v => set('date', v)} />
 
           <div>
-            <label style={{ fontSize: 11, fontWeight: 600, color: 'rgba(255,255,255,0.6)', display: 'block', marginBottom: 6, letterSpacing: '0.06em', textTransform: 'uppercase' }}>Category</label>
+            <label style={{ fontSize: 11, fontWeight: 600, color: 'var(--ink-secondary)', display: 'block', marginBottom: 6, letterSpacing: '0.06em', textTransform: 'uppercase' }}>Category</label>
             <Dropdown<Category>
               value={form.category}
               options={CATEGORIES.map(c => ({ value: c, label: c }))}
@@ -276,15 +276,15 @@ function ConfirmDelete(props: { open: boolean; tx: Tx | null; onCancel: () => vo
   if (!open || !tx) return null
   return (
     <div onClick={e => e.target === e.currentTarget && onCancel()}
-      style={{ position: 'fixed', inset: 0, zIndex: 220, background: 'rgba(0,0,0,0.78)', backdropFilter: 'blur(14px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 24 }}>
+      style={{ position: 'fixed', inset: 0, zIndex: 220, background: 'rgba(24,21,16,0.55)',  display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 24 }}>
       <motion.div initial={{ opacity: 0, scale: 0.93 }} animate={{ opacity: 1, scale: 1 }}
         style={{ width: '100%', maxWidth: 380, borderRadius: 22, background: '#0a0a0a', border: '1px solid rgba(255,255,255,0.12)', padding: '26px' }}>
-        <h2 style={{ fontSize: 17, fontWeight: 800, color: '#fff', margin: '0 0 8px' }}>Delete transaction?</h2>
-        <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.65)', margin: '0 0 4px' }}>{tx.description}</p>
-        <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.5)', margin: '0 0 20px' }}>This cannot be undone.</p>
+        <h2 style={{ fontSize: 17, fontWeight: 800, color: 'var(--ink)', margin: '0 0 8px' }}>Delete transaction?</h2>
+        <p style={{ fontSize: 13, color: 'var(--ink-secondary)', margin: '0 0 4px' }}>{tx.description}</p>
+        <p style={{ fontSize: 12, color: 'var(--ink-muted)', margin: '0 0 20px' }}>This cannot be undone.</p>
         <div style={{ display: 'flex', gap: 8 }}>
-          <button onClick={onCancel} disabled={busy} style={{ flex: 1, padding: '11px', borderRadius: 12, border: '1px solid rgba(255,255,255,0.12)', background: 'rgba(255,255,255,0.04)', color: 'rgba(255,255,255,0.85)', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>Cancel</button>
-          <button onClick={onConfirm} disabled={busy} style={{ flex: 1, padding: '11px', borderRadius: 12, border: 'none', background: busy ? 'rgba(255,100,100,0.3)' : 'rgba(255,100,100,0.95)', color: '#fff', fontSize: 13, fontWeight: 700, cursor: busy ? 'default' : 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 7 }}>
+          <button onClick={onCancel} disabled={busy} style={{ flex: 1, padding: '11px', borderRadius: 12, border: '1px solid rgba(255,255,255,0.12)', background: 'var(--parchment)', color: 'var(--ink)', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>Cancel</button>
+          <button onClick={onConfirm} disabled={busy} style={{ flex: 1, padding: '11px', borderRadius: 12, border: 'none', background: busy ? 'rgba(255,100,100,0.3)' : 'rgba(255,100,100,0.95)', color: 'var(--ink)', fontSize: 13, fontWeight: 700, cursor: busy ? 'default' : 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 7 }}>
             {busy ? <Loader2 size={13} className="animate-spin" /> : <Trash2 size={13} />}
             {busy ? 'Deleting…' : 'Delete'}
           </button>
@@ -361,7 +361,7 @@ function ConnectBank(props: { connected: { institution: string } | null; onChang
           <span style={{ fontSize: 12, fontWeight: 600, color: 'rgba(180,240,200,1)' }}>{connected.institution}</span>
         </div>
         <button onClick={disconnect} title="Disconnect bank"
-          style={{ width: 32, height: 32, borderRadius: 10, border: '1px solid rgba(255,255,255,0.12)', background: 'rgba(255,255,255,0.04)', cursor: 'pointer', color: 'rgba(255,255,255,0.65)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          style={{ width: 32, height: 32, borderRadius: 10, border: '1px solid rgba(255,255,255,0.12)', background: 'var(--parchment)', cursor: 'pointer', color: 'var(--ink-secondary)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <Unplug size={13} />
         </button>
       </div>
@@ -371,7 +371,7 @@ function ConnectBank(props: { connected: { institution: string } | null; onChang
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
       <motion.button whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }} onClick={fetchToken} disabled={loading}
-        style={{ display: 'flex', alignItems: 'center', gap: 7, padding: '9px 14px', borderRadius: 11, border: '1px solid rgba(255,255,255,0.14)', background: 'rgba(255,255,255,0.05)', cursor: loading ? 'default' : 'pointer', color: '#fff', fontSize: 12, fontWeight: 600 }}>
+        style={{ display: 'flex', alignItems: 'center', gap: 7, padding: '9px 14px', borderRadius: 11, border: '1px solid rgba(255,255,255,0.14)', background: 'var(--parchment)', cursor: loading ? 'default' : 'pointer', color: 'var(--ink)', fontSize: 12, fontWeight: 600 }}>
         {loading ? <Loader2 size={13} className="animate-spin" /> : <Building2 size={13} />}
         Connect Bank
       </motion.button>
@@ -591,12 +591,12 @@ export default function Transactions() {
       {/* Header */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 28, flexWrap: 'wrap', gap: 16 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-          <div style={{ width: 44, height: 44, borderRadius: 14, background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <ArrowLeftRight size={19} style={{ color: 'rgba(255,255,255,0.85)' }} />
+          <div style={{ width: 44, height: 44, borderRadius: 14, background: 'var(--parchment-deep)', border: '1px solid rgba(255,255,255,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <ArrowLeftRight size={19} style={{ color: 'var(--ink)' }} />
           </div>
           <div>
-            <h1 style={{ fontSize: 24, fontWeight: 900, color: '#fff', letterSpacing: '-0.03em', margin: 0 }}>Transactions</h1>
-            <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.6)', margin: '3px 0 0' }}>{filtered.length} entries · {rangeIdx === -1 ? `${customStart} → ${customEnd}` : RANGES[rangeIdx].label}</p>
+            <h1 style={{ fontSize: 24, fontWeight: 900, color: 'var(--ink)', letterSpacing: '-0.03em', margin: 0 }}>Transactions</h1>
+            <p style={{ fontSize: 13, color: 'var(--ink-secondary)', margin: '3px 0 0' }}>{filtered.length} entries · {rangeIdx === -1 ? `${customStart} → ${customEnd}` : RANGES[rangeIdx].label}</p>
           </div>
         </div>
         <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
@@ -606,19 +606,19 @@ export default function Transactions() {
             onSyncing={setRef}
           />
           <button onClick={refresh} title="Refresh"
-            style={{ width: 38, height: 38, borderRadius: 11, border: '1px solid rgba(255,255,255,0.12)', background: 'rgba(255,255,255,0.04)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'rgba(255,255,255,0.75)' }}>
+            style={{ width: 38, height: 38, borderRadius: 11, border: '1px solid rgba(255,255,255,0.12)', background: 'var(--parchment)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'rgba(255,255,255,0.75)' }}>
             <RefreshCw size={14} className={refreshing ? 'animate-spin' : ''} />
           </button>
           <Tooltip content="Import CSV (Date, Description, Amount, Category)">
             <button onClick={() => fileInputRef.current?.click()} disabled={importing}
-              style={{ width: 38, height: 38, borderRadius: 11, border: '1px solid rgba(255,255,255,0.12)', background: 'rgba(255,255,255,0.04)', cursor: importing ? 'default' : 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'rgba(255,255,255,0.75)' }}>
+              style={{ width: 38, height: 38, borderRadius: 11, border: '1px solid rgba(255,255,255,0.12)', background: 'var(--parchment)', cursor: importing ? 'default' : 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'rgba(255,255,255,0.75)' }}>
               {importing ? <Loader2 size={14} className="animate-spin" /> : <Upload size={14} />}
             </button>
           </Tooltip>
           <input type="file" accept=".csv,text/csv" ref={fileInputRef} style={{ display: 'none' }}
             onChange={e => onCSVUpload(e.target.files?.[0] || null)} />
           <motion.button whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }} onClick={() => { setEditing(null); setModal(true) }}
-            style={{ display: 'flex', alignItems: 'center', gap: 7, padding: '10px 18px', borderRadius: 11, border: 'none', cursor: 'pointer', background: '#fff', color: '#000', fontSize: 13, fontWeight: 700 }}>
+            style={{ display: 'flex', alignItems: 'center', gap: 7, padding: '10px 18px', borderRadius: 11, border: 'none', cursor: 'pointer', background: 'var(--electric)', color: '#fff', fontSize: 13, fontWeight: 700 }}>
             <Plus size={14} strokeWidth={2.5} />Add
           </motion.button>
         </div>
@@ -637,10 +637,10 @@ export default function Transactions() {
             border: `1px solid ${s.border}`,
             backdropFilter: 'blur(10px)',
             display: 'flex', alignItems: 'center', gap: 9,
-            boxShadow: `inset 0 1px 0 rgba(255,255,255,0.04)`,
+            boxShadow: `inset 0 1px 0 rgba(24,21,16,0.04)`,
           }}>
             <div style={{ width: 7, height: 7, borderRadius: '50%', background: s.text, boxShadow: `0 0 10px ${s.dotShadow}` }} />
-            <span style={{ fontSize: 10, fontWeight: 700, color: 'rgba(255,255,255,0.7)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>{s.label}</span>
+            <span style={{ fontSize: 10, fontWeight: 700, color: 'var(--ink-secondary)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>{s.label}</span>
             <span style={{ fontSize: 14, fontWeight: 800, color: s.text, letterSpacing: '-0.02em' }}>${Math.round(s.value).toLocaleString('en-US')}</span>
           </div>
         ))}
@@ -649,7 +649,7 @@ export default function Transactions() {
       {/* Toolbar */}
       <div style={{ display: 'flex', gap: 10, marginBottom: 18, flexWrap: 'wrap', alignItems: 'center' }}>
         <SearchBox value={search} onChange={setSearch} />
-        <div style={{ display: 'inline-flex', gap: 2, padding: 3, borderRadius: 11, background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.09)' }}>
+        <div style={{ display: 'inline-flex', gap: 2, padding: 3, borderRadius: 11, background: 'var(--surface-hover)', border: '1px solid rgba(255,255,255,0.09)' }}>
           {RANGES.map((r, i) => (
             <button key={r.label} onClick={() => setRangeIdx(i)}
               style={{ padding: '6px 12px', borderRadius: 9, border: 'none', cursor: 'pointer', fontSize: 12, fontWeight: 600, background: rangeIdx === i ? '#fff' : 'transparent', color: rangeIdx === i ? '#000' : 'rgba(255,255,255,0.65)', transition: 'background 0.2s, color 0.2s' }}>
@@ -663,12 +663,12 @@ export default function Transactions() {
         </div>
 
         {rangeIdx === -1 && (
-          <div style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '4px 6px', borderRadius: 11, background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.09)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '4px 6px', borderRadius: 11, background: 'var(--parchment)', border: '1px solid rgba(255,255,255,0.09)' }}>
             <input type="date" value={customStart} max={customEnd} onChange={e => setCustomStart(e.target.value)}
-              style={{ padding: '5px 8px', borderRadius: 7, background: 'transparent', border: 'none', color: '#fff', fontSize: 12, outline: 'none', colorScheme: 'dark' }} />
-            <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.45)' }}>→</span>
+              style={{ padding: '5px 8px', borderRadius: 7, background: 'transparent', border: 'none', color: 'var(--ink)', fontSize: 12, outline: 'none',  }} />
+            <span style={{ fontSize: 11, color: 'var(--ink-muted)' }}>→</span>
             <input type="date" value={customEnd} min={customStart} onChange={e => setCustomEnd(e.target.value)}
-              style={{ padding: '5px 8px', borderRadius: 7, background: 'transparent', border: 'none', color: '#fff', fontSize: 12, outline: 'none', colorScheme: 'dark' }} />
+              style={{ padding: '5px 8px', borderRadius: 7, background: 'transparent', border: 'none', color: 'var(--ink)', fontSize: 12, outline: 'none',  }} />
           </div>
         )}
 
@@ -695,32 +695,32 @@ export default function Transactions() {
       )}
 
       {/* Table */}
-      <div style={{ borderRadius: 18, background: 'rgba(20,20,22,0.5)', backdropFilter: 'blur(18px)', WebkitBackdropFilter: 'blur(18px)', border: '1px solid rgba(255,255,255,0.08)', overflow: 'hidden' }}>
+      <div style={{ borderRadius: 18, background: 'rgba(20,20,22,0.5)', backdropFilter: 'blur(18px)', WebkitBackdropFilter: 'blur(18px)', border: '1px solid var(--warm-border)', overflow: 'hidden' }}>
         {!isMobile && (
           <div style={{ display: 'grid', gridTemplateColumns: tableCols, padding: '11px 20px', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
             {['Transaction', 'Category', 'Date', 'Amount', ''].map((h, i) => (
-              <span key={h || String(i)} style={{ fontSize: 11, fontWeight: 600, color: 'rgba(255,255,255,0.5)', textTransform: 'uppercase', letterSpacing: '0.06em', textAlign: i === 3 ? 'right' : 'left' }}>{h}</span>
+              <span key={h || String(i)} style={{ fontSize: 11, fontWeight: 600, color: 'var(--ink-muted)', textTransform: 'uppercase', letterSpacing: '0.06em', textAlign: i === 3 ? 'right' : 'left' }}>{h}</span>
             ))}
           </div>
         )}
 
         {loading ? (
           [...Array(6)].map((_, i) => (
-            <div key={i} style={{ display: 'grid', gridTemplateColumns: tableCols, padding: '14px 16px', borderBottom: '1px solid rgba(255,255,255,0.04)', gap: 12 }}>
+            <div key={i} style={{ display: 'grid', gridTemplateColumns: tableCols, padding: '14px 16px', borderBottom: '1px solid rgba(24,21,16,0.04)', gap: 12 }}>
               {(isMobile ? [180, 60] : [180, 80, 60, 60, 40]).map((w, j) => (
-                <div key={j} style={{ height: 12, borderRadius: 6, background: 'rgba(255,255,255,0.05)', width: `${w}px`, maxWidth: '100%' }} />
+                <div key={j} style={{ height: 12, borderRadius: 6, background: 'var(--parchment)', width: `${w}px`, maxWidth: '100%' }} />
               ))}
             </div>
           ))
         ) : filtered.length === 0 ? (
           <div style={{ padding: '72px 24px', textAlign: 'center' }}>
-            <div style={{ width: 60, height: 60, borderRadius: 16, background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', marginBottom: 16 }}>
-              {txs.length === 0 ? <Building2 size={24} style={{ color: 'rgba(255,255,255,0.4)' }} /> : <FileIcon size={22} style={{ color: 'rgba(255,255,255,0.4)' }} />}
+            <div style={{ width: 60, height: 60, borderRadius: 16, background: 'var(--parchment)', border: '1px solid var(--warm-border)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', marginBottom: 16 }}>
+              {txs.length === 0 ? <Building2 size={24} style={{ color: 'var(--ink-muted)' }} /> : <FileIcon size={22} style={{ color: 'var(--ink-muted)' }} />}
             </div>
-            <h3 style={{ fontSize: 15, fontWeight: 700, color: '#fff', margin: '0 0 4px', letterSpacing: '-0.02em' }}>
+            <h3 style={{ fontSize: 15, fontWeight: 700, color: 'var(--ink)', margin: '0 0 4px', letterSpacing: '-0.02em' }}>
               {txs.length === 0 ? (plaid?.connected ? 'No transactions in this range' : 'Nothing here yet') : 'No matches'}
             </h3>
-            <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.55)', margin: '0 0 20px', maxWidth: 360, marginInline: 'auto' }}>
+            <p style={{ fontSize: 13, color: 'var(--ink-muted)', margin: '0 0 20px', maxWidth: 360, marginInline: 'auto' }}>
               {txs.length === 0
                 ? (plaid?.connected ? 'Try widening the date range or refreshing the sync.' : 'Connect a bank to import transactions automatically, or add one manually.')
                 : 'No transactions match your search and filters.'}
@@ -728,12 +728,12 @@ export default function Transactions() {
             {txs.length === 0 && (
               <div style={{ display: 'inline-flex', gap: 8 }}>
                 <motion.button whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }} onClick={() => { setEditing(null); setModal(true) }}
-                  style={{ display: 'flex', alignItems: 'center', gap: 7, padding: '9px 16px', borderRadius: 11, border: '1px solid rgba(255,255,255,0.12)', background: 'rgba(255,255,255,0.04)', cursor: 'pointer', color: '#fff', fontSize: 13, fontWeight: 600 }}>
+                  style={{ display: 'flex', alignItems: 'center', gap: 7, padding: '9px 16px', borderRadius: 11, border: '1px solid rgba(255,255,255,0.12)', background: 'var(--parchment)', cursor: 'pointer', color: 'var(--ink)', fontSize: 13, fontWeight: 600 }}>
                   <Plus size={13} strokeWidth={2.5} />Add manually
                 </motion.button>
                 {!plaid?.connected && (
                   <motion.button whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }} onClick={refresh}
-                    style={{ display: 'flex', alignItems: 'center', gap: 7, padding: '9px 16px', borderRadius: 11, border: 'none', cursor: 'pointer', background: '#fff', color: '#000', fontSize: 13, fontWeight: 700 }}>
+                    style={{ display: 'flex', alignItems: 'center', gap: 7, padding: '9px 16px', borderRadius: 11, border: 'none', cursor: 'pointer', background: 'var(--electric)', color: '#fff', fontSize: 13, fontWeight: 700 }}>
                     <RefreshCw size={13} />Try refresh
                   </motion.button>
                 )}
@@ -744,9 +744,9 @@ export default function Transactions() {
           <>
             {grouped.map((group, gi) => (
               <div key={`${group.label}-${gi}`}>
-                <div style={{ padding: isMobile ? '14px 16px 8px' : '14px 20px 8px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderTop: gi === 0 ? 'none' : '1px solid rgba(255,255,255,0.04)', background: 'rgba(255,255,255,0.015)' }}>
-                  <span style={{ fontSize: 11, fontWeight: 700, color: 'rgba(255,255,255,0.55)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>{group.label}</span>
-                  <span style={{ fontSize: 11, fontWeight: 600, color: 'rgba(255,255,255,0.4)' }}>{group.items.length} {group.items.length === 1 ? 'tx' : 'txs'}</span>
+                <div style={{ padding: isMobile ? '14px 16px 8px' : '14px 20px 8px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderTop: gi === 0 ? 'none' : '1px solid rgba(24,21,16,0.04)', background: 'rgba(24,21,16,0.015)' }}>
+                  <span style={{ fontSize: 11, fontWeight: 700, color: 'var(--ink-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>{group.label}</span>
+                  <span style={{ fontSize: 11, fontWeight: 600, color: 'var(--ink-muted)' }}>{group.items.length} {group.items.length === 1 ? 'tx' : 'txs'}</span>
                 </div>
                 {group.items.map((tx, i) => {
                   const isIncome = tx.amount < 0
@@ -763,8 +763,8 @@ export default function Transactions() {
                         if (selected.size > 0 || (e as any).shiftKey) { toggleSelect(tx.id); return }
                         setDetailTx(tx)
                       }}
-                      style={{ display: 'grid', gridTemplateColumns: tableCols, padding: isMobile ? '13px 16px' : '13px 20px', borderBottom: '1px solid rgba(255,255,255,0.05)', alignItems: 'center', opacity: tx.pending ? 0.78 : 1, cursor: 'pointer', transition: 'background 0.15s', gap: isMobile ? 12 : 0, background: isSelected ? 'rgba(255,255,255,0.04)' : 'transparent' }}
-                      whileHover={{ background: isSelected ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.025)' }}>
+                      style={{ display: 'grid', gridTemplateColumns: tableCols, padding: isMobile ? '13px 16px' : '13px 20px', borderBottom: '1px solid rgba(24,21,16,0.05)', alignItems: 'center', opacity: tx.pending ? 0.78 : 1, cursor: 'pointer', transition: 'background 0.15s', gap: isMobile ? 12 : 0, background: isSelected ? 'rgba(24,21,16,0.04)' : 'transparent' }}
+                      whileHover={{ background: isSelected ? 'rgba(24,21,16,0.05)' : 'rgba(255,255,255,0.025)' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 12, minWidth: 0 }}>
                     {isSelected ? (
                       <div onClick={(e) => { e.stopPropagation(); toggleSelect(tx.id) }}
@@ -772,7 +772,7 @@ export default function Transactions() {
                         <CheckSquare size={15} style={{ color: '#000' }} strokeWidth={2.5} />
                       </div>
                     ) : tx.logo_url ? (
-                      <div style={{ width: 32, height: 32, borderRadius: 10, flexShrink: 0, background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.08)' }}>
+                      <div style={{ width: 32, height: 32, borderRadius: 10, flexShrink: 0, background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', border: '1px solid var(--warm-border)' }}>
                         <img src={tx.logo_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                           onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none' }} />
                       </div>
@@ -788,7 +788,7 @@ export default function Transactions() {
                       {isMobile ? (
                         <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
                           <span style={{ fontSize: 10, fontWeight: 600, padding: '1px 7px', borderRadius: 16, background: `${color}22`, color }}>{tx.category}</span>
-                          <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.55)' }}>{formatDate(tx.date)}</span>
+                          <span style={{ fontSize: 11, color: 'var(--ink-muted)' }}>{formatDate(tx.date)}</span>
                           {tx.pending && <span style={{ fontSize: 9, fontWeight: 600, color: 'rgba(255,200,100,0.95)', letterSpacing: '0.04em', textTransform: 'uppercase' }}>Pending</span>}
                         </div>
                       ) : (
@@ -799,7 +799,7 @@ export default function Transactions() {
                   {!isMobile && (
                     <>
                       <span style={{ fontSize: 11, fontWeight: 600, padding: '3px 9px', borderRadius: 20, background: `${color}22`, color, width: 'fit-content' }}>{tx.category}</span>
-                      <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.65)' }}>{formatDate(tx.date)}</span>
+                      <span style={{ fontSize: 12, color: 'var(--ink-secondary)' }}>{formatDate(tx.date)}</span>
                     </>
                   )}
                   <span style={{ fontSize: 14, fontWeight: 700, color: isIncome ? 'rgba(140,240,170,1)' : '#fff', textAlign: 'right', letterSpacing: '-0.02em', whiteSpace: 'nowrap' }}>
@@ -808,11 +808,11 @@ export default function Transactions() {
                   {!isMobile && (
                     <div style={{ display: 'flex', gap: 6, justifyContent: 'flex-end' }}>
                       <button onClick={(e) => { e.stopPropagation(); setEditing(tx); setModal(true) }} title="Edit"
-                        style={{ width: 28, height: 28, borderRadius: 8, border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.03)', cursor: 'pointer', color: 'rgba(255,255,255,0.7)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        style={{ width: 28, height: 28, borderRadius: 8, border: '1px solid var(--warm-border-strong)', background: 'var(--surface-hover)', cursor: 'pointer', color: 'var(--ink-secondary)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                         <Pencil size={12} />
                       </button>
                       <button onClick={(e) => { e.stopPropagation(); setDeleting(tx) }} title="Delete"
-                        style={{ width: 28, height: 28, borderRadius: 8, border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.03)', cursor: 'pointer', color: 'rgba(255,150,150,0.85)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        style={{ width: 28, height: 28, borderRadius: 8, border: '1px solid var(--warm-border-strong)', background: 'var(--surface-hover)', cursor: 'pointer', color: 'rgba(255,150,150,0.85)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                         <Trash2 size={12} />
                       </button>
                     </div>
@@ -825,7 +825,7 @@ export default function Transactions() {
             {visible.length < filtered.length && (
               <div style={{ padding: '16px 20px', display: 'flex', justifyContent: 'center' }}>
                 <button onClick={() => setVisibleCount(c => c + PAGE_SIZE)}
-                  style={{ padding: '8px 18px', borderRadius: 10, border: '1px solid rgba(255,255,255,0.12)', background: 'rgba(255,255,255,0.04)', cursor: 'pointer', color: '#fff', fontSize: 12, fontWeight: 600 }}>
+                  style={{ padding: '8px 18px', borderRadius: 10, border: '1px solid rgba(255,255,255,0.12)', background: 'var(--parchment)', cursor: 'pointer', color: 'var(--ink)', fontSize: 12, fontWeight: 600 }}>
                   Load {Math.min(PAGE_SIZE, filtered.length - visible.length)} more · {visible.length} of {filtered.length}
                 </button>
               </div>
@@ -844,22 +844,22 @@ export default function Transactions() {
             display: 'flex', alignItems: 'center', gap: 10,
             padding: '10px 12px 10px 18px',
             borderRadius: 16,
-            background: 'rgba(15,15,17,0.96)',
+            background: 'var(--surface)',
             border: '1px solid rgba(255,255,255,0.14)',
-            backdropFilter: 'blur(20px)',
+            
             boxShadow: '0 20px 60px rgba(0,0,0,0.6)',
           }}>
-          <span style={{ fontSize: 13, fontWeight: 600, color: '#fff' }}>{selected.size} selected</span>
+          <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--ink)' }}>{selected.size} selected</span>
           <span style={{ width: 1, height: 18, background: 'rgba(255,255,255,0.1)' }} />
           <button onClick={() => selectAll(filtered.map(t => t.id))}
-            style={{ display: 'flex', alignItems: 'center', gap: 5, padding: '6px 10px', borderRadius: 8, border: '1px solid rgba(255,255,255,0.1)', background: 'transparent', cursor: 'pointer', color: 'rgba(255,255,255,0.8)', fontSize: 12, fontWeight: 600 }}>
+            style={{ display: 'flex', alignItems: 'center', gap: 5, padding: '6px 10px', borderRadius: 8, border: '1px solid var(--warm-border-strong)', background: 'transparent', cursor: 'pointer', color: 'var(--ink)', fontSize: 12, fontWeight: 600 }}>
             <Square size={11} />Select all ({filtered.length})
           </button>
           <button onClick={() => {
             const tag = window.prompt('Add tag to selected transactions:')
             if (tag) bulkTag(tag)
           }}
-            style={{ display: 'flex', alignItems: 'center', gap: 5, padding: '6px 10px', borderRadius: 8, border: '1px solid rgba(255,255,255,0.1)', background: 'transparent', cursor: 'pointer', color: 'rgba(255,255,255,0.8)', fontSize: 12, fontWeight: 600 }}>
+            style={{ display: 'flex', alignItems: 'center', gap: 5, padding: '6px 10px', borderRadius: 8, border: '1px solid var(--warm-border-strong)', background: 'transparent', cursor: 'pointer', color: 'var(--ink)', fontSize: 12, fontWeight: 600 }}>
             <Tag size={11} />Tag
           </button>
           <button onClick={bulkDelete} disabled={bulkBusy}
@@ -867,7 +867,7 @@ export default function Transactions() {
             {bulkBusy ? <Loader2 size={11} className="animate-spin" /> : <Trash2 size={11} />}Delete
           </button>
           <button onClick={clearSelection} title="Clear selection"
-            style={{ width: 28, height: 28, borderRadius: 8, border: '1px solid rgba(255,255,255,0.1)', background: 'transparent', cursor: 'pointer', color: 'rgba(255,255,255,0.6)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            style={{ width: 28, height: 28, borderRadius: 8, border: '1px solid var(--warm-border-strong)', background: 'transparent', cursor: 'pointer', color: 'var(--ink-secondary)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <XIcon size={12} />
           </button>
         </motion.div>

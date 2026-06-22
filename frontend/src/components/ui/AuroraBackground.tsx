@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion'
+import { motion } from 'motion/react'
 
 export function AuroraBackground({ children }: { children: React.ReactNode }) {
   return (

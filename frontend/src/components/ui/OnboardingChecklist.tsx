@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence } from 'motion/react'
 import { useNavigate } from 'react-router-dom'
 import { Check, ChevronRight, Sparkles, X } from 'lucide-react'
 import { plaidAPI, txAPI, budgetAPI, smartAPI } from '@/lib/api'

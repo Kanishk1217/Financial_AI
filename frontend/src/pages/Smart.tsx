@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { useEffect, useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence } from 'motion/react'
 import { Target, RefreshCw, Repeat, Brain, Plus, Loader2, Calendar, Zap, Flame } from 'lucide-react'
 import { AnimatedProgressBar } from '@/components/ui/AnimatedProgressBar'
 import { smartAPI, txAPI } from '@/lib/api'
@@ -18,10 +18,10 @@ function GField({ label, type = 'text', value, onChange, placeholder = '', requi
   const [f, setF] = useState(false)
   return (
     <div>
-      <label style={{ fontSize: 11, fontWeight: 600, color: 'rgba(255,255,255,0.65)', display: 'block', marginBottom: 6, letterSpacing: '0.06em', textTransform: 'uppercase' }}>{label}</label>
+      <label style={{ fontSize: 11, fontWeight: 600, color: 'var(--night-text-dim)', display: 'block', marginBottom: 6, letterSpacing: '0.06em', textTransform: 'uppercase' }}>{label}</label>
       <input type={type} value={value} required={required} step={step} placeholder={placeholder}
         onFocus={() => setF(true)} onBlur={() => setF(false)} onChange={e => onChange(e.target.value)}
-        style={{ width: '100%', padding: '11px 14px', borderRadius: 12, background: f ? 'rgba(255,255,255,0.07)' : 'rgba(255,255,255,0.04)', border: `1px solid ${f ? 'rgba(255,255,255,0.16)' : 'rgba(255,255,255,0.07)'}`, color: '#fff', fontSize: 14, outline: 'none', transition: 'border-color 0.2s, background 0.2s', colorScheme: 'dark' }} />
+        style={{ width: '100%', padding: '11px 14px', borderRadius: 12, background: f ? 'var(--parchment)' : 'var(--surface)', border: `1px solid ${f ? 'var(--electric)' : 'rgba(240,237,230,0.10)'}`, color: 'var(--night-text)', fontSize: 14, outline: 'none', transition: 'border-color 0.2s, background 0.2s',  }} />
     </div>
   )
 }
@@ -44,15 +44,15 @@ function NewGoalModal({ open, onClose, onCreated }) {
   if (!open) return null
   return (
     <div onClick={e => e.target === e.currentTarget && onClose()}
-      style={{ position: 'fixed', inset: 0, zIndex: 100, background: 'rgba(0,0,0,0.78)', backdropFilter: 'blur(14px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 24 }}>
+      style={{ position: 'fixed', inset: 0, zIndex: 100, background: 'rgba(24,21,16,0.55)',  display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 24 }}>
       <motion.div initial={{ opacity: 0, scale: 0.93, y: 18 }} animate={{ opacity: 1, scale: 1, y: 0 }} transition={{ type: 'spring', damping: 22, stiffness: 320 }}
-        style={{ width: '100%', maxWidth: 420, borderRadius: 24, background: 'rgba(7,7,7,0.99)', border: '1px solid rgba(255,255,255,0.1)', backdropFilter: 'blur(40px)', padding: '28px' }}>
+        style={{ width: '100%', maxWidth: 420, borderRadius: 24, background: 'var(--night-surface)', border: '1px solid rgba(240,237,230,0.10)',  padding: '28px' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 24 }}>
           <div>
-            <h2 style={{ fontSize: 18, fontWeight: 800, color: '#fff', letterSpacing: '-0.02em', margin: 0 }}>New Savings Goal</h2>
+            <h2 style={{ fontSize: 18, fontWeight: 800, color: 'var(--night-text)', letterSpacing: '-0.02em', margin: 0 }}>New Savings Goal</h2>
             <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.62)', marginTop: 3 }}>Track your financial target</p>
           </div>
-          <button onClick={onClose} style={{ width: 30, height: 30, borderRadius: 9, border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.05)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'rgba(255,255,255,0.5)', fontSize: 14 }}>✕</button>
+          <button onClick={onClose} style={{ width: 30, height: 30, borderRadius: 9, border: '1px solid rgba(240,237,230,0.07)', background: 'var(--night)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--night-text-muted)', fontSize: 14 }}>✕</button>
         </div>
         <form onSubmit={submit} style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
           <GField label="Goal Name" value={form.name} onChange={v => setForm(p => ({ ...p, name: v }))} placeholder="Emergency Fund" required />
@@ -75,14 +75,14 @@ function EmptyState({ icon: Icon, title, sub, onAction, actionLabel }: any) {
   return (
     <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
       style={{ textAlign: 'center', padding: '72px 24px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-      <div style={{ width: 54, height: 54, borderRadius: 18, background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.07)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 16 }}>
-        <Icon size={22} style={{ color: 'rgba(255,255,255,0.6)' }} />
+      <div style={{ width: 54, height: 54, borderRadius: 18, background: 'var(--night)', border: '1px solid rgba(255,255,255,0.07)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 16 }}>
+        <Icon size={22} style={{ color: 'var(--night-text-dim)' }} />
       </div>
-      <h3 style={{ fontSize: 16, fontWeight: 700, color: '#fff', margin: '0 0 6px', letterSpacing: '-0.02em' }}>{title}</h3>
-      <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.6)', maxWidth: 280, lineHeight: 1.6, margin: 0 }}>{sub}</p>
+      <h3 style={{ fontSize: 16, fontWeight: 700, color: 'var(--night-text)', margin: '0 0 6px', letterSpacing: '-0.02em' }}>{title}</h3>
+      <p style={{ fontSize: 13, color: 'var(--night-text-dim)', maxWidth: 280, lineHeight: 1.6, margin: 0 }}>{sub}</p>
       {onAction && (
         <motion.button whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }} onClick={onAction}
-          style={{ marginTop: 20, padding: '10px 20px', borderRadius: 12, border: '1px solid rgba(255,255,255,0.1)', cursor: 'pointer', background: 'rgba(255,255,255,0.06)', color: 'rgba(255,255,255,0.7)', fontSize: 13, fontWeight: 600, display: 'flex', alignItems: 'center', gap: 6 }}>
+          style={{ marginTop: 20, padding: '10px 20px', borderRadius: 12, border: '1px solid rgba(240,237,230,0.10)', cursor: 'pointer', background: 'rgba(240,237,230,0.07)', color: 'var(--night-text-dim)', fontSize: 13, fontWeight: 600, display: 'flex', alignItems: 'center', gap: 6 }}>
           <Plus size={13} />{actionLabel}
         </motion.button>
       )}
@@ -117,35 +117,35 @@ export default function Smart() {
   const counts = [goals.length, anomalies.length, recurring.length]
 
   return (
-    <div style={{ background: '#060606', padding: '36px 36px 48px', position: 'relative', minHeight: '100vh' }}>
+    <div style={{ background: 'var(--night)', padding: '36px 36px 48px', position: 'relative', minHeight: '100vh' }}>
 
       {/* Decorative glows */}
       <div style={{ position: 'absolute', top: 0, right: 0, width: 500, height: 500, borderRadius: '50%', background: 'radial-gradient(circle, rgba(255,255,255,0.025) 0%, transparent 65%)', filter: 'blur(60px)', pointerEvents: 'none' }} />
-      <div style={{ position: 'absolute', bottom: 0, left: '-8%', width: 450, height: 450, borderRadius: '50%', background: 'radial-gradient(circle, rgba(255,255,255,0.015) 0%, transparent 65%)', filter: 'blur(60px)', pointerEvents: 'none' }} />
+      <div style={{ position: 'absolute', bottom: 0, left: '-8%', width: 450, height: 450, borderRadius: '50%', background: 'radial-gradient(circle, rgba(24,21,16,0.015) 0%, transparent 65%)', filter: 'blur(60px)', pointerEvents: 'none' }} />
 
       {/* Header */}
       <motion.div initial={{ opacity: 0, y: -18 }} animate={{ opacity: 1, y: 0 }}
         style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 36, position: 'relative' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-          <div style={{ width: 46, height: 46, borderRadius: 15, background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <Brain size={20} style={{ color: 'rgba(255,255,255,0.55)' }} />
+          <div style={{ width: 46, height: 46, borderRadius: 15, background: 'var(--night)', border: '1px solid rgba(240,237,230,0.07)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <Brain size={20} style={{ color: 'var(--night-text-muted)' }} />
           </div>
           <div>
-            <h1 style={{ fontSize: 24, fontWeight: 900, color: '#fff', letterSpacing: '-0.03em', margin: 0, lineHeight: 1.1 }}>Smart AI</h1>
+            <h1 style={{ fontSize: 24, fontWeight: 900, color: 'var(--night-text)', letterSpacing: '-0.03em', margin: 0, lineHeight: 1.1 }}>Smart AI</h1>
             <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.62)', margin: '3px 0 0' }}>Goals · Anomalies · Recurring charges</p>
           </div>
         </div>
         <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
           <motion.button whileHover={{ scale: 1.08 }} whileTap={{ scale: 0.92 }}
             onClick={() => { setLoading(true); load().finally(() => setLoading(false)) }}
-            style={{ width: 38, height: 38, borderRadius: 11, border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.04)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'rgba(255,255,255,0.72)' }}>
+            style={{ width: 38, height: 38, borderRadius: 11, border: '1px solid rgba(240,237,230,0.07)', background: 'var(--night)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--night-text-dim)' }}>
             <RefreshCw size={14} />
           </motion.button>
           <AnimatePresence>
             {activeTab === 0 && (
               <motion.button initial={{ opacity: 0, scale: 0.85 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.88 }}
                 whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }} onClick={() => setModal(true)}
-                style={{ display: 'flex', alignItems: 'center', gap: 7, padding: '10px 18px', borderRadius: 11, border: 'none', cursor: 'pointer', background: '#fff', color: '#000', fontSize: 13, fontWeight: 700, letterSpacing: '-0.01em', boxShadow: '0 0 20px rgba(255,255,255,0.12)' }}>
+                style={{ display: 'flex', alignItems: 'center', gap: 7, padding: '10px 18px', borderRadius: 11, border: 'none', cursor: 'pointer', background: 'var(--electric)', color: '#fff', fontSize: 13, fontWeight: 700, letterSpacing: '-0.01em', boxShadow: '0 0 20px rgba(255,255,255,0.12)' }}>
                 <Plus size={14} strokeWidth={2.5} />New Goal
               </motion.button>
             )}
@@ -156,7 +156,7 @@ export default function Smart() {
       {/* Tab bar */}
       <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
         style={{ marginBottom: 32, position: 'relative' }}>
-        <div style={{ display: 'inline-flex', alignItems: 'center', gap: 3, padding: '4px', borderRadius: 16, background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)' }}>
+        <div style={{ display: 'inline-flex', alignItems: 'center', gap: 3, padding: '4px', borderRadius: 16, background: 'rgba(240,237,230,0.03)', border: '1px solid rgba(255,255,255,0.07)' }}>
           {TABS.map(({ label, icon: Icon }, i) => (
             <button key={label} onClick={() => setActiveTab(i)}
               style={{ position: 'relative', display: 'flex', alignItems: 'center', gap: 7, padding: '9px 20px', borderRadius: 12, border: 'none', cursor: 'pointer', background: 'transparent', color: activeTab === i ? '#000' : 'rgba(255,255,255,0.38)', fontSize: 13, fontWeight: 600, letterSpacing: '-0.01em', transition: 'color 0.25s', zIndex: 1, userSelect: 'none' }}>
@@ -181,7 +181,7 @@ export default function Smart() {
           <motion.div key="goals" initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}>
             {loading ? (
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(290px, 1fr))', gap: 16 }}>
-                {[0,1,2].map(i => <div key={i} style={{ height: 240, borderRadius: 22, background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }} className="shimmer-line" />)}
+                {[0,1,2].map(i => <div key={i} style={{ height: 240, borderRadius: 22, background: 'rgba(240,237,230,0.03)', border: '1px solid rgba(240,237,230,0.07)' }} className="shimmer-line" />)}
               </div>
             ) : goals.length === 0 ? (
               <EmptyState icon={Target} title="No goals yet" sub="Create a savings goal to track your financial progress" onAction={() => setModal(true)} actionLabel="Create your first goal" />
@@ -211,20 +211,20 @@ export default function Smart() {
                           {isOverdue ? 'Overdue' : `${daysLeft}d left`}
                         </div>
                       </div>
-                      <h3 style={{ fontSize: 17, fontWeight: 800, color: '#fff', margin: '0 0 4px', letterSpacing: '-0.02em', lineHeight: 1.2 }}>{goal.name}</h3>
-                      <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.6)', marginBottom: 20, display: 'flex', alignItems: 'center', gap: 5 }}>
+                      <h3 style={{ fontSize: 17, fontWeight: 800, color: 'var(--night-text)', margin: '0 0 4px', letterSpacing: '-0.02em', lineHeight: 1.2 }}>{goal.name}</h3>
+                      <div style={{ fontSize: 12, color: 'var(--night-text-dim)', marginBottom: 20, display: 'flex', alignItems: 'center', gap: 5 }}>
                         <Calendar size={10} />{formatDate(goal.deadline)}
                       </div>
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 10 }}>
-                        <span style={{ fontSize: 22, fontWeight: 800, color: '#fff', letterSpacing: '-0.03em' }}>${(goal.current_amount ?? 0).toLocaleString()}</span>
+                        <span style={{ fontSize: 22, fontWeight: 800, color: 'var(--night-text)', letterSpacing: '-0.03em' }}>${(goal.current_amount ?? 0).toLocaleString()}</span>
                         <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.62)' }}>of ${goal.target_amount.toLocaleString()}</span>
                       </div>
                       <AnimatedProgressBar value={goal.current_amount ?? 0} max={goal.target_amount} color="rgba(255,255,255,0.45)" showLabel={false} delay={0.28 + i * 0.07} />
                       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginTop: 14 }}>
                         {[{ label: 'Saved', value: `${pct.toFixed(0)}%` }, { label: 'Need/mo', value: `$${Math.round(goal.needed_per_month ?? 0).toLocaleString()}` }].map(s => (
-                          <div key={s.label} style={{ padding: '9px 12px', borderRadius: 11, background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}>
-                            <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.65)', marginBottom: 3, textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 700 }}>{s.label}</div>
-                            <div style={{ fontSize: 14, fontWeight: 800, color: '#fff', letterSpacing: '-0.01em' }}>{s.value}</div>
+                          <div key={s.label} style={{ padding: '9px 12px', borderRadius: 11, background: 'rgba(240,237,230,0.03)', border: '1px solid rgba(240,237,230,0.07)' }}>
+                            <div style={{ fontSize: 10, color: 'var(--night-text-dim)', marginBottom: 3, textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 700 }}>{s.label}</div>
+                            <div style={{ fontSize: 14, fontWeight: 800, color: 'var(--night-text)', letterSpacing: '-0.01em' }}>{s.value}</div>
                           </div>
                         ))}
                       </div>
@@ -252,12 +252,12 @@ export default function Smart() {
                       <Flame size={17} style={{ color: 'rgba(255,140,80,0.9)' }} />
                     </div>
                     <div style={{ flex: 1, minWidth: 0 }}>
-                      <div style={{ fontSize: 15, fontWeight: 700, color: '#fff', marginBottom: 4, letterSpacing: '-0.01em' }}>{a.category} spending spiked</div>
-                      <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.65)', display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                      <div style={{ fontSize: 15, fontWeight: 700, color: 'var(--night-text)', marginBottom: 4, letterSpacing: '-0.01em' }}>{a.category} spending spiked</div>
+                      <div style={{ fontSize: 12, color: 'var(--night-text-dim)', display: 'flex', gap: 8, flexWrap: 'wrap' }}>
                         <span>${a.this_week.toLocaleString()} this period</span>
-                        <span style={{ color: 'rgba(255,255,255,0.55)' }}>·</span>
+                        <span style={{ color: 'var(--night-text-muted)' }}>·</span>
                         <span>${a.previous_avg.toLocaleString()} avg</span>
-                        <span style={{ color: 'rgba(255,255,255,0.55)' }}>·</span>
+                        <span style={{ color: 'var(--night-text-muted)' }}>·</span>
                         <span>{formatDate(a.date)}</span>
                       </div>
                     </div>
@@ -274,7 +274,7 @@ export default function Smart() {
           <motion.div key="recurring" initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}>
             {loading ? (
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 14 }}>
-                {[0,1,2,3].map(i => <div key={i} style={{ height: 140, borderRadius: 18, background: 'rgba(255,255,255,0.03)' }} className="shimmer-line" />)}
+                {[0,1,2,3].map(i => <div key={i} style={{ height: 140, borderRadius: 18, background: 'rgba(240,237,230,0.03)' }} className="shimmer-line" />)}
               </div>
             ) : recurring.length === 0 ? (
               <EmptyState icon={Repeat} title="No recurring charges" sub="Transactions that repeat 2+ times are detected automatically" />
@@ -287,9 +287,9 @@ export default function Smart() {
                     { label: 'Active Charges', value: String(recurring.length) },
                   ].map((s, i) => (
                     <motion.div key={s.label} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05 }}
-                      style={{ padding: '16px 18px', borderRadius: 16, background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)' }}>
-                      <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.6)', textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 600, marginBottom: 6 }}>{s.label}</div>
-                      <div style={{ fontSize: 20, fontWeight: 800, color: '#fff', letterSpacing: '-0.03em' }}>{s.value}</div>
+                      style={{ padding: '16px 18px', borderRadius: 16, background: 'rgba(240,237,230,0.03)', border: '1px solid rgba(255,255,255,0.07)' }}>
+                      <div style={{ fontSize: 10, color: 'var(--night-text-dim)', textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 600, marginBottom: 6 }}>{s.label}</div>
+                      <div style={{ fontSize: 20, fontWeight: 800, color: 'var(--night-text)', letterSpacing: '-0.03em' }}>{s.value}</div>
                     </motion.div>
                   ))}
                 </div>
@@ -303,18 +303,18 @@ export default function Smart() {
                           <Repeat size={15} style={{ color: categoryColor(r.category) }} />
                         </div>
                         <div style={{ flex: 1, minWidth: 0 }}>
-                          <p style={{ fontSize: 14, fontWeight: 700, color: '#fff', margin: 0, letterSpacing: '-0.01em', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{r.description}</p>
-                          <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.6)', margin: '2px 0 0' }}>{r.category} · {r.count}× detected</p>
+                          <p style={{ fontSize: 14, fontWeight: 700, color: 'var(--night-text)', margin: 0, letterSpacing: '-0.01em', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{r.description}</p>
+                          <p style={{ fontSize: 11, color: 'var(--night-text-dim)', margin: '2px 0 0' }}>{r.category} · {r.count}× detected</p>
                         </div>
                       </div>
                       <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between' }}>
                         <div>
-                          <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.6)', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 600, marginBottom: 3 }}>Per Month</div>
-                          <div style={{ fontSize: 22, fontWeight: 800, color: '#fff', letterSpacing: '-0.03em' }}>${r.amount.toLocaleString()}</div>
+                          <div style={{ fontSize: 10, color: 'var(--night-text-dim)', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 600, marginBottom: 3 }}>Per Month</div>
+                          <div style={{ fontSize: 22, fontWeight: 800, color: 'var(--night-text)', letterSpacing: '-0.03em' }}>${r.amount.toLocaleString()}</div>
                         </div>
                         <div style={{ textAlign: 'right' }}>
-                          <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.6)', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 600, marginBottom: 3 }}>Annual</div>
-                          <div style={{ fontSize: 13, fontWeight: 600, color: 'rgba(255,255,255,0.7)' }}>${Math.round(r.annual_cost ?? r.amount * 12).toLocaleString()}</div>
+                          <div style={{ fontSize: 10, color: 'var(--night-text-dim)', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 600, marginBottom: 3 }}>Annual</div>
+                          <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--night-text-dim)' }}>${Math.round(r.annual_cost ?? r.amount * 12).toLocaleString()}</div>
                         </div>
                       </div>
                     </motion.div>

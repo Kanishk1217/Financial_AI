@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Command } from 'cmdk'
 import { useNavigate } from 'react-router-dom'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence } from 'motion/react'
 import {
   LayoutDashboard, CreditCard, ArrowLeftRight, PieChart, FileText, Sparkles,
   Plus, RefreshCw, Building2, LogOut, Search,

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence } from 'motion/react'
 import { X, MapPin, CreditCard, Tag, FileText, Calendar, Hash, Loader2, Plus, Check } from 'lucide-react'
 import { txAPI } from '@/lib/api'
 import { formatDate, categoryColor } from '@/lib/utils'

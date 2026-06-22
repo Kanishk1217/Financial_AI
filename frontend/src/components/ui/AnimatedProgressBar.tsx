@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion'
+import { motion } from 'motion/react'
 
 interface Props {
   value: number
@@ -10,25 +10,25 @@ interface Props {
   delay?: number
 }
 
-export function AnimatedProgressBar({ value, max, color = '#7c3aed', height = 8, showLabel = true, label, delay = 0 }: Props) {
+export function AnimatedProgressBar({ value, max, color = 'var(--electric)', height = 8, showLabel = true, label, delay = 0 }: Props) {
   const pct = Math.min((value / max) * 100, 100)
   const isWarning = pct >= 80
   const isCritical = pct >= 100
-  const displayColor = isCritical ? '#ef4444' : isWarning ? '#f59e0b' : color
+  const displayColor = isCritical ? 'var(--rose)' : isWarning ? 'var(--amber)' : color
 
   return (
     <div className="w-full">
       {showLabel && (
         <div className="flex justify-between items-center mb-2 text-sm">
-          <span className="text-slate-400">{label}</span>
-          <span style={{ color: displayColor }} className="font-semibold tabular-nums">
+          <span style={{ color: 'var(--ink-secondary)', fontFamily: 'var(--font-ui)' }}>{label}</span>
+          <span style={{ color: displayColor, fontFamily: 'var(--font-mono)', fontWeight: 600 }}>
             {pct.toFixed(0)}%
           </span>
         </div>
       )}
       <div
         className="relative overflow-hidden rounded-full"
-        style={{ height, background: 'rgba(255,255,255,0.07)' }}
+        style={{ height, background: 'var(--parchment-deep)' }}
       >
         <motion.div
           className="absolute inset-y-0 left-0 rounded-full"

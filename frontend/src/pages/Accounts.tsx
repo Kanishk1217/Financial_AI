@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from 'react'
-import { motion } from 'framer-motion'
+import { motion } from 'motion/react'
 import { useNavigate } from 'react-router-dom'
 import {
   CreditCard, Wallet, Landmark, PiggyBank, TrendingUp, Building2,
@@ -78,7 +78,7 @@ function ConnectInline({ onConnected }: { onConnected: () => void }) {
 
   return (
     <motion.button whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }} onClick={fetchToken} disabled={loading}
-      style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '11px 18px', borderRadius: 12, border: 'none', cursor: loading ? 'default' : 'pointer', background: '#fff', color: '#000', fontSize: 14, fontWeight: 700 }}>
+      style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '11px 18px', borderRadius: 12, border: 'none', cursor: loading ? 'default' : 'pointer', background: 'var(--electric)', color: '#fff', fontSize: 14, fontWeight: 700 }}>
       {loading ? <Loader2 size={15} className="animate-spin" /> : <Building2 size={15} />}
       Connect a Bank
       {error && <span style={{ fontSize: 11, color: 'rgba(255,120,120,0.95)', marginLeft: 8 }}>{error}</span>}
@@ -145,12 +145,12 @@ export default function Accounts() {
       {/* Header */}
       <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 28, flexWrap: 'wrap', gap: 16 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-          <div style={{ width: 44, height: 44, borderRadius: 14, background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <CreditCard size={19} style={{ color: 'rgba(255,255,255,0.85)' }} />
+          <div style={{ width: 44, height: 44, borderRadius: 14, background: 'var(--parchment-deep)', border: '1px solid rgba(255,255,255,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <CreditCard size={19} style={{ color: 'var(--ink)' }} />
           </div>
           <div>
-            <h1 style={{ fontSize: 24, fontWeight: 900, color: '#fff', letterSpacing: '-0.03em', margin: 0 }}>Accounts</h1>
-            <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.6)', margin: '3px 0 0' }}>
+            <h1 style={{ fontSize: 24, fontWeight: 900, color: 'var(--ink)', letterSpacing: '-0.03em', margin: 0 }}>Accounts</h1>
+            <p style={{ fontSize: 13, color: 'var(--ink-secondary)', margin: '3px 0 0' }}>
               {status?.connected
                 ? `${status.count} bank${status.count === 1 ? '' : 's'} · ${(accounts || []).length} account${(accounts || []).length === 1 ? '' : 's'}`
                 : 'No bank connected'}
@@ -160,7 +160,7 @@ export default function Accounts() {
         <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
           {status?.connected && (
             <button onClick={refresh} disabled={refreshing} title="Refresh from bank"
-              style={{ width: 38, height: 38, borderRadius: 11, border: '1px solid rgba(255,255,255,0.12)', background: 'rgba(255,255,255,0.04)', cursor: refreshing ? 'default' : 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'rgba(255,255,255,0.75)' }}>
+              style={{ width: 38, height: 38, borderRadius: 11, border: '1px solid rgba(255,255,255,0.12)', background: 'var(--parchment)', cursor: refreshing ? 'default' : 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'rgba(255,255,255,0.75)' }}>
               <RefreshCw size={14} className={refreshing ? 'animate-spin' : ''} />
             </button>
           )}
@@ -188,20 +188,20 @@ export default function Accounts() {
       {!loading && status?.connected && (accounts || []).length > 0 && (
         <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} style={{ marginBottom: 22 }}>
           <GlowCard padding={32} radius={22} glowColor={netWorth < 0 ? 'rgba(255,140,140,0.18)' : 'rgba(140,240,170,0.18)'}>
-            <p style={{ fontSize: 11, fontWeight: 700, color: 'rgba(255,255,255,0.55)', textTransform: 'uppercase', letterSpacing: '0.12em', margin: 0 }}>Net Worth</p>
+            <p style={{ fontSize: 11, fontWeight: 700, color: 'var(--ink-muted)', textTransform: 'uppercase', letterSpacing: '0.12em', margin: 0 }}>Net Worth</p>
             <p style={{ fontSize: 48, fontWeight: 900, color: netWorth < 0 ? 'rgba(255,180,180,1)' : '#fff', letterSpacing: '-0.045em', margin: '8px 0 22px', lineHeight: 1 }}>
               {netWorth < 0 ? '-' : ''}$<AnimatedNumber value={Math.abs(netWorth)} decimals={2} />
             </p>
             <div style={{ display: 'flex', gap: 28, flexWrap: 'wrap' }}>
               <div>
-                <p style={{ fontSize: 10, color: 'rgba(255,255,255,0.55)', margin: 0, textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: 600 }}>Assets</p>
+                <p style={{ fontSize: 10, color: 'var(--ink-muted)', margin: 0, textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: 600 }}>Assets</p>
                 <p style={{ fontSize: 20, fontWeight: 800, color: 'rgba(180,240,200,1)', margin: '5px 0 0', letterSpacing: '-0.025em' }}>
                   $<AnimatedNumber value={totalAssets} decimals={2} />
                 </p>
               </div>
-              <div style={{ width: 1, background: 'rgba(255,255,255,0.06)', margin: '0 4px' }} />
+              <div style={{ width: 1, background: 'var(--parchment-deep)', margin: '0 4px' }} />
               <div>
-                <p style={{ fontSize: 10, color: 'rgba(255,255,255,0.55)', margin: 0, textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: 600 }}>Liabilities</p>
+                <p style={{ fontSize: 10, color: 'var(--ink-muted)', margin: 0, textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: 600 }}>Liabilities</p>
                 <p style={{ fontSize: 20, fontWeight: 800, color: 'rgba(255,180,180,1)', margin: '5px 0 0', letterSpacing: '-0.025em' }}>
                   $<AnimatedNumber value={totalLiabilities} decimals={2} />
                 </p>
@@ -215,19 +215,19 @@ export default function Accounts() {
       {loading && (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 14 }}>
           {[...Array(6)].map((_, i) => (
-            <div key={i} style={{ height: 124, borderRadius: 18, background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }} />
+            <div key={i} style={{ height: 124, borderRadius: 18, background: 'var(--surface-hover)', border: '1px solid var(--warm-border)' }} />
           ))}
         </div>
       )}
 
       {/* No connection empty state */}
       {!loading && !status?.connected && (
-        <div style={{ padding: '80px 24px', textAlign: 'center', borderRadius: 22, background: 'rgba(255,255,255,0.02)', border: '1px dashed rgba(255,255,255,0.1)' }}>
-          <div style={{ width: 64, height: 64, borderRadius: 18, background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', marginBottom: 18 }}>
-            <Building2 size={28} style={{ color: 'rgba(255,255,255,0.4)' }} />
+        <div style={{ padding: '80px 24px', textAlign: 'center', borderRadius: 22, background: 'rgba(24,21,16,0.02)', border: '1px dashed rgba(255,255,255,0.1)' }}>
+          <div style={{ width: 64, height: 64, borderRadius: 18, background: 'var(--parchment)', border: '1px solid var(--warm-border-strong)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', marginBottom: 18 }}>
+            <Building2 size={28} style={{ color: 'var(--ink-muted)' }} />
           </div>
-          <h2 style={{ fontSize: 18, fontWeight: 800, color: '#fff', margin: '0 0 6px', letterSpacing: '-0.02em' }}>Connect your first bank</h2>
-          <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.55)', margin: '0 0 20px', maxWidth: 420, marginInline: 'auto' }}>
+          <h2 style={{ fontSize: 18, fontWeight: 800, color: 'var(--ink)', margin: '0 0 6px', letterSpacing: '-0.02em' }}>Connect your first bank</h2>
+          <p style={{ fontSize: 13, color: 'var(--ink-muted)', margin: '0 0 20px', maxWidth: 420, marginInline: 'auto' }}>
             Link your accounts via Plaid to see live balances, sync transactions automatically, and track your real net worth.
           </p>
           <ConnectInline onConnected={load} />
@@ -248,9 +248,9 @@ export default function Accounts() {
             return (
               <div key={type} style={{ marginBottom: 28 }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
-                  <Icon size={14} style={{ color: 'rgba(255,255,255,0.55)' }} />
+                  <Icon size={14} style={{ color: 'var(--ink-muted)' }} />
                   <h2 style={{ fontSize: 12, fontWeight: 700, color: 'rgba(255,255,255,0.75)', textTransform: 'uppercase', letterSpacing: '0.08em', margin: 0 }}>{label}</h2>
-                  <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.4)' }}>· {list.length}</span>
+                  <span style={{ fontSize: 11, color: 'var(--ink-muted)' }}>· {list.length}</span>
                 </div>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 14 }}>
                   {list.map((a, i) => {
@@ -285,16 +285,16 @@ export default function Accounts() {
                               }} />
                             </div>
                             {a.subtype && (
-                              <span style={{ fontSize: 10, fontWeight: 700, color: 'rgba(255,255,255,0.65)', textTransform: 'uppercase', letterSpacing: '0.06em', padding: '3px 8px', borderRadius: 6, background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)' }}>
+                              <span style={{ fontSize: 10, fontWeight: 700, color: 'var(--ink-secondary)', textTransform: 'uppercase', letterSpacing: '0.06em', padding: '3px 8px', borderRadius: 6, background: 'var(--parchment)', border: '1px solid var(--warm-border)' }}>
                                 {a.subtype.replace(/_/g, ' ')}
                               </span>
                             )}
                           </div>
-                          <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.65)', margin: 0, fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', letterSpacing: '-0.005em' }}>{a.name}</p>
-                          <p style={{ fontSize: 28, fontWeight: 900, color: '#fff', margin: '6px 0 0', letterSpacing: '-0.035em', lineHeight: 1 }}>
+                          <p style={{ fontSize: 12, color: 'var(--ink-secondary)', margin: 0, fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', letterSpacing: '-0.005em' }}>{a.name}</p>
+                          <p style={{ fontSize: 28, fontWeight: 900, color: 'var(--ink)', margin: '6px 0 0', letterSpacing: '-0.035em', lineHeight: 1 }}>
                             $<AnimatedNumber value={a.balance} decimals={2} />
                           </p>
-                          <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.45)', margin: '6px 0 0', fontWeight: 500 }}>{a.currency}</p>
+                          <p style={{ fontSize: 11, color: 'var(--ink-muted)', margin: '6px 0 0', fontWeight: 500 }}>{a.currency}</p>
                         </GlowCard>
                       </motion.div>
                     )

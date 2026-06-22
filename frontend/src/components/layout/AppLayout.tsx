@@ -1,57 +1,73 @@
 import { Navigate, Outlet, NavLink } from 'react-router-dom'
 import { useAuthStore } from '@/store/authStore'
 import { Sidebar } from './Sidebar'
-import { AuroraBg } from '@/components/ui/AuroraBg'
-import { GrainOverlay } from '@/components/ui/GrainOverlay'
 import { LayoutDashboard, ArrowLeftRight, PieChart, FileText, Sparkles, CreditCard } from 'lucide-react'
 
 const mobileNav = [
-  { to: '/dashboard',    icon: LayoutDashboard, label: 'Dashboard' },
-  { to: '/accounts',     icon: CreditCard,      label: 'Accounts'  },
-  { to: '/transactions', icon: ArrowLeftRight,  label: 'Tx' },
-  { to: '/budget',       icon: PieChart,        label: 'Budget' },
-  { to: '/reports',      icon: FileText,        label: 'Reports' },
-  { to: '/smart',        icon: Sparkles,        label: 'Smart' },
+  { to: '/dashboard',    icon: LayoutDashboard, label: 'Home'    },
+  { to: '/accounts',     icon: CreditCard,      label: 'Accounts' },
+  { to: '/transactions', icon: ArrowLeftRight,  label: 'Tx'       },
+  { to: '/budget',       icon: PieChart,        label: 'Budget'   },
+  { to: '/reports',      icon: FileText,        label: 'Reports'  },
+  { to: '/smart',        icon: Sparkles,        label: 'AI'       },
 ]
 
 export function AppLayout() {
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated)
-
   if (!isAuthenticated()) return <Navigate to="/login" replace />
 
-
   return (
-    <div className="dark flex h-screen overflow-hidden" style={{ background: '#070708', position: 'relative' }}>
-      <AuroraBg />
-      <GrainOverlay />
-
+    <div
+      className="app-shell flex h-screen overflow-hidden"
+      style={{ fontFamily: 'var(--font-ui)' }}
+    >
       {/* Desktop sidebar */}
-      <div className="hidden md:flex" style={{ position: 'relative', zIndex: 2 }}>
+      <div className="hidden md:flex" style={{ position: 'relative', zIndex: 2, flexShrink: 0 }}>
         <Sidebar />
       </div>
 
-      {/* Main content */}
-      <main className="flex-1 overflow-y-auto pb-20 md:pb-0" style={{ background: 'transparent', position: 'relative', zIndex: 2 }}>
+      {/* Main content — parchment bg with subtle dot grid */}
+      <main
+        className="flex-1 overflow-y-auto pb-20 md:pb-0"
+        style={{
+          background: 'var(--parchment)',
+          backgroundImage: 'radial-gradient(circle, rgba(24,21,16,0.048) 1px, transparent 1px)',
+          backgroundSize: '22px 22px',
+          position: 'relative',
+        }}
+      >
         <Outlet />
       </main>
 
       {/* Mobile bottom nav */}
-      <nav className="md:hidden fixed bottom-0 inset-x-0 z-50 flex items-center justify-around px-2 py-2 border-t border-white/[0.07]"
-        style={{ background: 'rgba(8,8,8,0.92)', backdropFilter: 'blur(12px)' }}>
+      <nav
+        className="md:hidden fixed bottom-0 inset-x-0 z-50 flex items-center justify-around px-2 py-2"
+        style={{
+          background: 'var(--surface)',
+          borderTop: '1px solid var(--warm-border)',
+        }}
+      >
         {mobileNav.map(({ to, icon: Icon, label }) => (
-          <NavLink key={to} to={to} end={to === '/'}
-            className={({ isActive }) =>
-              `flex flex-col items-center gap-1 px-3 py-1.5 rounded-xl text-[10px] font-medium transition-all duration-200 ${
-                isActive ? 'text-white' : 'text-white/30'
-              }`
-            }>
+          <NavLink
+            key={to}
+            to={to}
+            end={to === '/'}
+            style={({ isActive }) => ({
+              display: 'flex', flexDirection: 'column',
+              alignItems: 'center', gap: 3,
+              padding: '6px 10px', borderRadius: 10,
+              textDecoration: 'none',
+              fontSize: 10, fontWeight: 600,
+              fontFamily: 'var(--font-ui)',
+              color: isActive ? 'var(--amber)' : 'var(--ink-muted)',
+              background: isActive ? 'var(--amber-dim)' : 'transparent',
+              transition: 'color 0.15s, background 0.15s',
+            })}
+          >
             {({ isActive }) => (
               <>
-                <Icon size={18} />
+                <Icon size={17} strokeWidth={isActive ? 2.2 : 1.7} />
                 <span>{label}</span>
-                {isActive && (
-                  <span className="absolute bottom-1.5 w-1 h-1 rounded-full bg-white" />
-                )}
               </>
             )}
           </NavLink>

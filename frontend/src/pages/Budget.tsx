@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { useEffect, useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence } from 'motion/react'
 import { Plus, Loader2, PieChart, AlertTriangle, CheckCircle2, TrendingUp } from 'lucide-react'
 import { AnimatedProgressBar } from '@/components/ui/AnimatedProgressBar'
 import { AnimatedCounter } from '@/components/ui/AnimatedCounter'
@@ -20,7 +20,7 @@ const CATEGORIES = ['Food', 'Shopping', 'Transport', 'Entertainment', 'Health', 
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div>
-      <label style={{ fontSize: 11, fontWeight: 600, color: 'rgba(255,255,255,0.65)', display: 'block', marginBottom: 6, letterSpacing: '0.06em', textTransform: 'uppercase' }}>
+      <label style={{ fontSize: 11, fontWeight: 600, color: 'var(--ink-secondary)', display: 'block', marginBottom: 6, letterSpacing: '0.06em', textTransform: 'uppercase' }}>
         {label}
       </label>
       {children}
@@ -40,10 +40,10 @@ function InputField({ label, type = 'text', value, onChange, placeholder = '', s
         onChange={e => onChange(e.target.value)}
         style={{
           width: '100%', padding: '11px 14px', borderRadius: 12,
-          background: focused ? 'rgba(255,255,255,0.07)' : 'rgba(255,255,255,0.04)',
-          border: `1px solid ${focused ? 'rgba(255,255,255,0.16)' : 'rgba(255,255,255,0.07)'}`,
-          color: '#fff', fontSize: 14, outline: 'none',
-          transition: 'border-color 0.2s, background 0.2s', colorScheme: 'dark',
+          background: focused ? 'var(--parchment)' : 'var(--surface)',
+          border: `1px solid ${focused ? 'var(--amber)' : 'var(--warm-border-strong)'}`,
+          color: 'var(--ink)', fontSize: 14, outline: 'none',
+          transition: 'border-color 0.2s, background 0.2s', 
         }}
       />
     </Field>
@@ -76,24 +76,24 @@ function SetBudgetModal({ open, onClose, onSaved }: { open: boolean; onClose: ()
         <motion.div
           initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
           onClick={e => e.target === e.currentTarget && onClose()}
-          style={{ position: 'fixed', inset: 0, zIndex: 50, background: 'rgba(0,0,0,0.78)', backdropFilter: 'blur(14px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 24 }}
+          style={{ position: 'fixed', inset: 0, zIndex: 50, background: 'rgba(24,21,16,0.55)',  display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 24 }}
         >
           <motion.div
             initial={{ opacity: 0, scale: 0.93, y: 18 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.94, y: 14 }}
             transition={{ type: 'spring', damping: 22, stiffness: 320 }}
-            style={{ width: '100%', maxWidth: 400, borderRadius: 24, background: 'rgba(7,7,7,0.98)', border: '1px solid rgba(255,255,255,0.1)', backdropFilter: 'blur(40px)', padding: '28px' }}
+            style={{ width: '100%', maxWidth: 400, borderRadius: 24, background: 'rgba(7,7,7,0.98)', border: '1px solid var(--warm-border-strong)',  padding: '28px' }}
           >
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 24 }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                <div style={{ width: 38, height: 38, borderRadius: 12, background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <PieChart size={16} style={{ color: 'rgba(255,255,255,0.55)' }} />
+                <div style={{ width: 38, height: 38, borderRadius: 12, background: 'var(--parchment-deep)', border: '1px solid var(--warm-border)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <PieChart size={16} style={{ color: 'var(--ink-muted)' }} />
                 </div>
                 <div>
-                  <h2 style={{ fontSize: 17, fontWeight: 800, color: '#fff', letterSpacing: '-0.02em', margin: 0 }}>Set Budget</h2>
+                  <h2 style={{ fontSize: 17, fontWeight: 800, color: 'var(--ink)', letterSpacing: '-0.02em', margin: 0 }}>Set Budget</h2>
                   <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.62)', margin: '2px 0 0' }}>Monthly spending limit</p>
                 </div>
               </div>
-              <button onClick={onClose} style={{ width: 30, height: 30, borderRadius: 9, border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.05)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'rgba(255,255,255,0.75)', fontSize: 14 }}>✕</button>
+              <button onClick={onClose} style={{ width: 30, height: 30, borderRadius: 9, border: '1px solid var(--warm-border)', background: 'var(--parchment)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'rgba(255,255,255,0.75)', fontSize: 14 }}>✕</button>
             </div>
 
             <form onSubmit={submit} style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
@@ -111,13 +111,13 @@ function SetBudgetModal({ open, onClose, onSaved }: { open: boolean; onClose: ()
                 <Field label="Month">
                   <input type="number" min="1" max="12" value={form.month}
                     onChange={e => setForm(p => ({ ...p, month: parseInt(e.target.value) }))}
-                    style={{ width: '100%', padding: '11px 14px', borderRadius: 12, background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.07)', color: '#fff', fontSize: 14, outline: 'none' }}
+                    style={{ width: '100%', padding: '11px 14px', borderRadius: 12, background: 'var(--parchment)', border: '1px solid rgba(255,255,255,0.07)', color: 'var(--ink)', fontSize: 14, outline: 'none' }}
                   />
                 </Field>
                 <Field label="Year">
                   <input type="number" value={form.year}
                     onChange={e => setForm(p => ({ ...p, year: parseInt(e.target.value) }))}
-                    style={{ width: '100%', padding: '11px 14px', borderRadius: 12, background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.07)', color: '#fff', fontSize: 14, outline: 'none' }}
+                    style={{ width: '100%', padding: '11px 14px', borderRadius: 12, background: 'var(--parchment)', border: '1px solid rgba(255,255,255,0.07)', color: 'var(--ink)', fontSize: 14, outline: 'none' }}
                   />
                 </Field>
               </div>
@@ -162,26 +162,26 @@ export default function Budget() {
   const pctOverall   = totalBudget > 0 ? Math.round((totalSpent / totalBudget) * 100) : 0
 
   return (
-    <div style={{ background: '#060606', padding: '36px 36px 48px', position: 'relative', minHeight: '100vh' }}>
+    <div style={{ background: 'var(--parchment)', padding: '36px 36px 48px', position: 'relative', minHeight: '100vh' }}>
 
       {/* Decorative glows */}
       <div style={{ position: 'absolute', top: 0, right: '-5%', width: 500, height: 500, borderRadius: '50%', background: 'radial-gradient(circle, rgba(255,255,255,0.025) 0%, transparent 65%)', filter: 'blur(60px)', pointerEvents: 'none' }} />
-      <div style={{ position: 'absolute', bottom: 0, left: '-8%', width: 450, height: 450, borderRadius: '50%', background: 'radial-gradient(circle, rgba(255,255,255,0.015) 0%, transparent 65%)', filter: 'blur(60px)', pointerEvents: 'none' }} />
+      <div style={{ position: 'absolute', bottom: 0, left: '-8%', width: 450, height: 450, borderRadius: '50%', background: 'radial-gradient(circle, rgba(24,21,16,0.015) 0%, transparent 65%)', filter: 'blur(60px)', pointerEvents: 'none' }} />
 
         {/* Header */}
         <motion.div initial={{ opacity: 0, y: -18 }} animate={{ opacity: 1, y: 0 }}
           style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 32 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-            <div style={{ width: 46, height: 46, borderRadius: 15, background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <PieChart size={20} style={{ color: 'rgba(255,255,255,0.55)' }} />
+            <div style={{ width: 46, height: 46, borderRadius: 15, background: 'var(--parchment)', border: '1px solid var(--warm-border)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <PieChart size={20} style={{ color: 'var(--ink-muted)' }} />
             </div>
             <div>
-              <h1 style={{ fontSize: 24, fontWeight: 900, color: '#fff', letterSpacing: '-0.03em', margin: 0, lineHeight: 1.1 }}>Budget</h1>
+              <h1 style={{ fontSize: 24, fontWeight: 900, color: 'var(--ink)', letterSpacing: '-0.03em', margin: 0, lineHeight: 1.1 }}>Budget</h1>
               <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.62)', margin: '3px 0 0' }}>Monthly spending limits & tracking</p>
             </div>
           </div>
           <motion.button whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }} onClick={() => setModal(true)}
-            style={{ display: 'flex', alignItems: 'center', gap: 7, padding: '10px 18px', borderRadius: 11, border: 'none', cursor: 'pointer', background: '#fff', color: '#000', fontSize: 13, fontWeight: 700, letterSpacing: '-0.01em', boxShadow: '0 0 20px rgba(255,255,255,0.12)' }}>
+            style={{ display: 'flex', alignItems: 'center', gap: 7, padding: '10px 18px', borderRadius: 11, border: 'none', cursor: 'pointer', background: 'var(--electric)', color: '#fff', fontSize: 13, fontWeight: 700, letterSpacing: '-0.01em', boxShadow: '0 0 20px rgba(255,255,255,0.12)' }}>
             <Plus size={14} strokeWidth={2.5} />
             Set Budget
           </motion.button>
@@ -198,11 +198,11 @@ export default function Budget() {
           ].map((s, i) => (
             <motion.div key={s.label}
               initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 + i * 0.05 }}
-              style={{ padding: '18px 20px', borderRadius: 18, background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)' }}>
+              style={{ padding: '18px 20px', borderRadius: 18, background: 'var(--surface-hover)', border: '1px solid rgba(255,255,255,0.07)' }}>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
-                <span style={{ fontSize: 11, fontWeight: 600, color: 'rgba(255,255,255,0.6)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>{s.label}</span>
-                <div style={{ width: 28, height: 28, borderRadius: 9, background: 'rgba(255,255,255,0.05)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <s.icon size={13} style={{ color: 'rgba(255,255,255,0.7)' }} />
+                <span style={{ fontSize: 11, fontWeight: 600, color: 'var(--ink-secondary)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>{s.label}</span>
+                <div style={{ width: 28, height: 28, borderRadius: 9, background: 'var(--parchment)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <s.icon size={13} style={{ color: 'var(--ink-secondary)' }} />
                 </div>
               </div>
               {s.isCount
@@ -216,9 +216,9 @@ export default function Budget() {
         {/* Overall progress bar */}
         {!loading && budgets.length > 0 && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }}
-            style={{ padding: '16px 20px', borderRadius: 16, background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', marginBottom: 24 }}>
+            style={{ padding: '16px 20px', borderRadius: 16, background: 'var(--surface-hover)', border: '1px solid rgba(255,255,255,0.07)', marginBottom: 24 }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
-              <span style={{ fontSize: 13, fontWeight: 600, color: 'rgba(255,255,255,0.5)' }}>Overall budget utilisation</span>
+              <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--ink-muted)' }}>Overall budget utilisation</span>
               <span style={{ fontSize: 13, fontWeight: 700, color: pctOverall >= 90 ? 'rgba(255,180,100,0.9)' : '#fff' }}>{pctOverall}%</span>
             </div>
             <AnimatedProgressBar value={totalSpent} max={totalBudget} color={pctOverall >= 90 ? 'rgba(255,180,80,0.7)' : 'rgba(255,255,255,0.4)'} showLabel={false} delay={0.3} />
@@ -228,18 +228,18 @@ export default function Budget() {
         {/* Budget cards */}
         {loading ? (
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 14 }}>
-            {[...Array(6)].map((_, i) => <div key={i} style={{ height: 160, borderRadius: 20, background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }} className="shimmer-line" />)}
+            {[...Array(6)].map((_, i) => <div key={i} style={{ height: 160, borderRadius: 20, background: 'var(--surface-hover)', border: '1px solid var(--warm-border)' }} className="shimmer-line" />)}
           </div>
         ) : budgets.length === 0 ? (
           <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
             style={{ textAlign: 'center', padding: '72px 24px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <div style={{ width: 54, height: 54, borderRadius: 18, background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.07)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 16 }}>
-              <PieChart size={22} style={{ color: 'rgba(255,255,255,0.6)' }} />
+            <div style={{ width: 54, height: 54, borderRadius: 18, background: 'var(--parchment)', border: '1px solid rgba(255,255,255,0.07)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 16 }}>
+              <PieChart size={22} style={{ color: 'var(--ink-secondary)' }} />
             </div>
-            <h3 style={{ fontSize: 16, fontWeight: 700, color: '#fff', margin: '0 0 6px', letterSpacing: '-0.02em' }}>No budgets set</h3>
-            <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.6)', maxWidth: 260, lineHeight: 1.6, margin: '0 0 20px' }}>Set monthly limits per category to track your spending</p>
+            <h3 style={{ fontSize: 16, fontWeight: 700, color: 'var(--ink)', margin: '0 0 6px', letterSpacing: '-0.02em' }}>No budgets set</h3>
+            <p style={{ fontSize: 13, color: 'var(--ink-secondary)', maxWidth: 260, lineHeight: 1.6, margin: '0 0 20px' }}>Set monthly limits per category to track your spending</p>
             <motion.button whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }} onClick={() => setModal(true)}
-              style={{ padding: '10px 20px', borderRadius: 12, border: '1px solid rgba(255,255,255,0.1)', cursor: 'pointer', background: 'rgba(255,255,255,0.06)', color: 'rgba(255,255,255,0.7)', fontSize: 13, fontWeight: 600, display: 'flex', alignItems: 'center', gap: 6 }}>
+              style={{ padding: '10px 20px', borderRadius: 12, border: '1px solid var(--warm-border-strong)', cursor: 'pointer', background: 'var(--parchment-deep)', color: 'var(--ink-secondary)', fontSize: 13, fontWeight: 600, display: 'flex', alignItems: 'center', gap: 6 }}>
               <Plus size={13} />Set first budget
             </motion.button>
           </motion.div>
@@ -265,7 +265,7 @@ export default function Budget() {
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 18 }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                         <div style={{ width: 10, height: 10, borderRadius: '50%', background: color, boxShadow: `0 0 10px ${color}`, flexShrink: 0 }} />
-                        <span style={{ fontSize: 15, fontWeight: 700, color: '#fff', letterSpacing: '-0.01em' }}>{b.category}</span>
+                        <span style={{ fontSize: 15, fontWeight: 700, color: 'var(--ink)', letterSpacing: '-0.01em' }}>{b.category}</span>
                       </div>
                       {isOver
                         ? <span style={{ fontSize: 10, fontWeight: 800, padding: '3px 9px', borderRadius: 20, background: 'rgba(255,80,50,0.14)', color: 'rgba(255,160,140,1)', border: '1px solid rgba(255,80,50,0.3)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Over</span>
@@ -294,19 +294,19 @@ export default function Budget() {
                         </text>
                       </svg>
                       <div style={{ flex: 1, minWidth: 0 }}>
-                        <p style={{ fontSize: 22, fontWeight: 900, color: '#fff', margin: 0, letterSpacing: '-0.03em', lineHeight: 1 }}>
+                        <p style={{ fontSize: 22, fontWeight: 900, color: 'var(--ink)', margin: 0, letterSpacing: '-0.03em', lineHeight: 1 }}>
                           $<AnimatedNumber value={b.spent} decimals={0} />
                         </p>
-                        <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.55)', margin: '4px 0 0', fontWeight: 500 }}>
-                          of <span style={{ color: 'rgba(255,255,255,0.85)', fontWeight: 700 }}>${b.limit.toLocaleString()}</span>
+                        <p style={{ fontSize: 11, color: 'var(--ink-muted)', margin: '4px 0 0', fontWeight: 500 }}>
+                          of <span style={{ color: 'var(--ink)', fontWeight: 700 }}>${b.limit.toLocaleString()}</span>
                         </p>
                       </div>
                     </div>
 
-                    <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.6)', fontWeight: 500 }}>
+                    <div style={{ fontSize: 11, color: 'var(--ink-secondary)', fontWeight: 500 }}>
                       {isOver
                         ? <span style={{ color: 'rgba(255,180,180,1)', fontWeight: 700 }}>Over by ${Math.abs(b.remaining).toLocaleString()}</span>
-                        : <>Remaining <span style={{ color: '#fff', fontWeight: 700 }}>${Math.max(b.remaining, 0).toLocaleString()}</span></>
+                        : <>Remaining <span style={{ color: 'var(--ink)', fontWeight: 700 }}>${Math.max(b.remaining, 0).toLocaleString()}</span></>
                       }
                     </div>
                   </GlowCard>

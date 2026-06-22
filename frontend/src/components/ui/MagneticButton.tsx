@@ -1,5 +1,5 @@
 import { useRef, type ReactNode, type MouseEvent } from 'react'
-import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion'
+import { motion, useMotionValue, useSpring, useTransform } from 'motion/react'
 
 /**
  * Cursor-pulling button used on landing CTAs.

@@ -1,5 +1,5 @@
 import { useRef, type ReactNode } from 'react'
-import { motion, useMotionValue, useTransform, useSpring } from 'framer-motion'
+import { motion, useMotionValue, useTransform, useSpring } from 'motion/react'
 
 /**
  * Stripe / Linear / Aceternity-style hover tilt + light-glare card.
