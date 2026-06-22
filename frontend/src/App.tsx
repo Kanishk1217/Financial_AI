@@ -3,6 +3,9 @@ import { AnimatePresence, motion } from 'motion/react'
 import { Toaster } from 'sonner'
 import { AppLayout } from '@/components/layout/AppLayout'
 import Landing from '@/pages/Landing'
+import Features from '@/pages/Features'
+import HowItWorks from '@/pages/HowItWorks'
+import FAQ from '@/pages/FAQ'
 import Login from '@/pages/Login'
 import ResetPassword from '@/pages/ResetPassword'
 import Dashboard from '@/pages/Dashboard'
@@ -34,6 +37,9 @@ function AnimatedRoutes() {
     <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
         <Route path="/" element={<PageWrap><Landing /></PageWrap>} />
+        <Route path="/features" element={<PageWrap><Features /></PageWrap>} />
+        <Route path="/how-it-works" element={<PageWrap><HowItWorks /></PageWrap>} />
+        <Route path="/faq" element={<PageWrap><FAQ /></PageWrap>} />
         <Route path="/login" element={<PageWrap><Login /></PageWrap>} />
         <Route path="/reset-password" element={<PageWrap><ResetPassword /></PageWrap>} />
         <Route element={<AppLayout />}>
