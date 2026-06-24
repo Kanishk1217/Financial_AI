@@ -2,10 +2,21 @@
 Seed 3 months of realistic financial data for FinanceAI demo users.
 Run: python seed_data.py
 """
+import os
 from sqlalchemy import create_engine, text
 from datetime import date
 
-engine = create_engine("postgresql://postgres:KP_123456@localhost:5432/finance_tracker")
+# Honor DATABASE_URL (e.g. a Neon connection string for the deployed DB);
+# fall back to the local Postgres for local-dev seeding.
+DATABASE_URL = os.getenv(
+    "DATABASE_URL",
+    "postgresql://postgres:KP_123456@localhost:5432/finance_tracker",
+)
+# Render/Heroku-style `postgres://` → SQLAlchemy 2.x wants `postgresql://`
+if DATABASE_URL.startswith("postgres://"):
+    DATABASE_URL = "postgresql://" + DATABASE_URL[len("postgres://"):]
+
+engine = create_engine(DATABASE_URL, pool_pre_ping=True)
 
 
 def get_uid(conn, email):

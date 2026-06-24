@@ -81,7 +81,7 @@ function ConnectInline({ onConnected }: { onConnected: () => void }) {
       style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '11px 18px', borderRadius: 12, border: 'none', cursor: loading ? 'default' : 'pointer', background: 'var(--electric)', color: '#fff', fontSize: 14, fontWeight: 700 }}>
       {loading ? <Loader2 size={15} className="animate-spin" /> : <Building2 size={15} />}
       Connect a Bank
-      {error && <span style={{ fontSize: 11, color: 'rgba(255,120,120,0.95)', marginLeft: 8 }}>{error}</span>}
+      {error && <span style={{ fontSize: 11, color: 'var(--rose)', marginLeft: 8 }}>{error}</span>}
     </motion.button>
   )
 }
@@ -145,7 +145,7 @@ export default function Accounts() {
       {/* Header */}
       <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 28, flexWrap: 'wrap', gap: 16 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-          <div style={{ width: 44, height: 44, borderRadius: 14, background: 'var(--parchment-deep)', border: '1px solid rgba(255,255,255,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <div style={{ width: 44, height: 44, borderRadius: 14, background: 'var(--parchment-deep)', border: '1px solid var(--warm-border)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <CreditCard size={19} style={{ color: 'var(--ink)' }} />
           </div>
           <div>
@@ -160,7 +160,7 @@ export default function Accounts() {
         <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
           {status?.connected && (
             <button onClick={refresh} disabled={refreshing} title="Refresh from bank"
-              style={{ width: 38, height: 38, borderRadius: 11, border: '1px solid rgba(255,255,255,0.12)', background: 'var(--parchment)', cursor: refreshing ? 'default' : 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'rgba(255,255,255,0.75)' }}>
+              style={{ width: 38, height: 38, borderRadius: 11, border: '1px solid var(--warm-border)', background: 'var(--parchment)', cursor: refreshing ? 'default' : 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--ink-secondary)' }}>
               <RefreshCw size={14} className={refreshing ? 'animate-spin' : ''} />
             </button>
           )}
@@ -172,11 +172,11 @@ export default function Accounts() {
       {status?.connected && (status.items?.length ?? 0) > 0 && (
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 20 }}>
           {status.items!.map(item => (
-            <div key={item.item_id} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '7px 8px 7px 12px', borderRadius: 11, background: 'rgba(80,220,120,0.1)', border: '1px solid rgba(80,220,120,0.22)' }}>
-              <Building2 size={13} style={{ color: 'rgba(120,230,160,1)' }} />
-              <span style={{ fontSize: 12, fontWeight: 600, color: 'rgba(180,240,200,1)' }}>{item.institution}</span>
+            <div key={item.item_id} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '7px 8px 7px 12px', borderRadius: 11, background: 'var(--emerald-dim)', border: '1px solid rgba(31,157,99,0.22)' }}>
+              <Building2 size={13} style={{ color: 'var(--emerald)' }} />
+              <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--emerald)' }}>{item.institution}</span>
               <button onClick={() => disconnectItem(item.item_id)} disabled={disconnectingId === item.item_id} title="Disconnect this bank"
-                style={{ width: 22, height: 22, borderRadius: 6, border: 'none', background: 'rgba(0,0,0,0.25)', cursor: disconnectingId === item.item_id ? 'default' : 'pointer', color: 'rgba(255,180,180,0.9)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                style={{ width: 22, height: 22, borderRadius: 6, border: 'none', background: 'var(--rose-dim)', cursor: disconnectingId === item.item_id ? 'default' : 'pointer', color: 'var(--rose)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 {disconnectingId === item.item_id ? <Loader2 size={11} className="animate-spin" /> : <Unplug size={11} />}
               </button>
             </div>
@@ -189,20 +189,20 @@ export default function Accounts() {
         <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} style={{ marginBottom: 22 }}>
           <GlowCard padding={32} radius={22} glowColor={netWorth < 0 ? 'rgba(255,140,140,0.18)' : 'rgba(140,240,170,0.18)'}>
             <p style={{ fontSize: 11, fontWeight: 700, color: 'var(--ink-muted)', textTransform: 'uppercase', letterSpacing: '0.12em', margin: 0 }}>Net Worth</p>
-            <p style={{ fontSize: 48, fontWeight: 900, color: netWorth < 0 ? 'rgba(255,180,180,1)' : '#fff', letterSpacing: '-0.045em', margin: '8px 0 22px', lineHeight: 1 }}>
+            <p style={{ fontSize: 48, fontWeight: 900, color: netWorth < 0 ? 'var(--rose)' : 'var(--ink)', letterSpacing: '-0.045em', margin: '8px 0 22px', lineHeight: 1 }}>
               {netWorth < 0 ? '-' : ''}$<AnimatedNumber value={Math.abs(netWorth)} decimals={2} />
             </p>
             <div style={{ display: 'flex', gap: 28, flexWrap: 'wrap' }}>
               <div>
                 <p style={{ fontSize: 10, color: 'var(--ink-muted)', margin: 0, textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: 600 }}>Assets</p>
-                <p style={{ fontSize: 20, fontWeight: 800, color: 'rgba(180,240,200,1)', margin: '5px 0 0', letterSpacing: '-0.025em' }}>
+                <p style={{ fontSize: 20, fontWeight: 800, color: 'var(--emerald)', margin: '5px 0 0', letterSpacing: '-0.025em' }}>
                   $<AnimatedNumber value={totalAssets} decimals={2} />
                 </p>
               </div>
               <div style={{ width: 1, background: 'var(--parchment-deep)', margin: '0 4px' }} />
               <div>
                 <p style={{ fontSize: 10, color: 'var(--ink-muted)', margin: 0, textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: 600 }}>Liabilities</p>
-                <p style={{ fontSize: 20, fontWeight: 800, color: 'rgba(255,180,180,1)', margin: '5px 0 0', letterSpacing: '-0.025em' }}>
+                <p style={{ fontSize: 20, fontWeight: 800, color: 'var(--rose)', margin: '5px 0 0', letterSpacing: '-0.025em' }}>
                   $<AnimatedNumber value={totalLiabilities} decimals={2} />
                 </p>
               </div>
@@ -222,7 +222,7 @@ export default function Accounts() {
 
       {/* No connection empty state */}
       {!loading && !status?.connected && (
-        <div style={{ padding: '80px 24px', textAlign: 'center', borderRadius: 22, background: 'rgba(24,21,16,0.02)', border: '1px dashed rgba(255,255,255,0.1)' }}>
+        <div style={{ padding: '80px 24px', textAlign: 'center', borderRadius: 22, background: 'rgba(24,21,16,0.02)', border: '1px dashed var(--warm-border-strong)' }}>
           <div style={{ width: 64, height: 64, borderRadius: 18, background: 'var(--parchment)', border: '1px solid var(--warm-border-strong)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', marginBottom: 18 }}>
             <Building2 size={28} style={{ color: 'var(--ink-muted)' }} />
           </div>
@@ -249,7 +249,7 @@ export default function Accounts() {
               <div key={type} style={{ marginBottom: 28 }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
                   <Icon size={14} style={{ color: 'var(--ink-muted)' }} />
-                  <h2 style={{ fontSize: 12, fontWeight: 700, color: 'rgba(255,255,255,0.75)', textTransform: 'uppercase', letterSpacing: '0.08em', margin: 0 }}>{label}</h2>
+                  <h2 style={{ fontSize: 12, fontWeight: 700, color: 'var(--ink-secondary)', textTransform: 'uppercase', letterSpacing: '0.08em', margin: 0 }}>{label}</h2>
                   <span style={{ fontSize: 11, color: 'var(--ink-muted)' }}>· {list.length}</span>
                 </div>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 14 }}>
@@ -277,11 +277,10 @@ export default function Accounts() {
                               boxShadow: `inset 0 1px 0 rgba(255,255,255,0.06)`,
                             }}>
                               <Icon size={17} style={{
-                                color: type === 'credit' ? 'rgba(255,200,160,1)'
-                                     : type === 'loan'   ? 'rgba(255,180,180,1)'
-                                     : type === 'investment' ? 'rgba(200,180,255,1)'
-                                     :                      'rgba(180,220,255,1)',
-                                filter: `drop-shadow(0 0 6px ${glow})`,
+                                color: type === 'credit' ? 'var(--amber)'
+                                     : type === 'loan'   ? 'var(--rose)'
+                                     : type === 'investment' ? '#7A52CC'
+                                     :                      'var(--electric)',
                               }} />
                             </div>
                             {a.subtype && (
@@ -306,9 +305,9 @@ export default function Accounts() {
 
           {/* Plaid error info */}
           {(accounts || []).length === 0 && (
-            <div style={{ padding: '40px 24px', textAlign: 'center', borderRadius: 18, border: '1px solid rgba(255,200,100,0.2)', background: 'rgba(255,200,100,0.05)' }}>
-              <AlertCircle size={20} style={{ color: 'rgba(255,200,100,0.9)' }} />
-              <p style={{ fontSize: 13, color: 'rgba(255,200,100,0.9)', margin: '8px 0 0' }}>Connected but no accounts returned. Try refreshing.</p>
+            <div style={{ padding: '40px 24px', textAlign: 'center', borderRadius: 18, border: '1px solid var(--amber-border)', background: 'var(--amber-dim)' }}>
+              <AlertCircle size={20} style={{ color: 'var(--amber)' }} />
+              <p style={{ fontSize: 13, color: 'var(--amber)', margin: '8px 0 0' }}>Connected but no accounts returned. Try refreshing.</p>
             </div>
           )}
         </>

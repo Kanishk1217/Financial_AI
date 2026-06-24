@@ -81,7 +81,7 @@ function SetBudgetModal({ open, onClose, onSaved }: { open: boolean; onClose: ()
           <motion.div
             initial={{ opacity: 0, scale: 0.93, y: 18 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.94, y: 14 }}
             transition={{ type: 'spring', damping: 22, stiffness: 320 }}
-            style={{ width: '100%', maxWidth: 400, borderRadius: 24, background: 'rgba(7,7,7,0.98)', border: '1px solid var(--warm-border-strong)',  padding: '28px' }}
+            style={{ width: '100%', maxWidth: 400, borderRadius: 24, background: 'var(--surface)', border: '1px solid var(--warm-border)', boxShadow: 'var(--shadow-lg)', padding: '28px' }}
           >
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 24 }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
@@ -90,7 +90,7 @@ function SetBudgetModal({ open, onClose, onSaved }: { open: boolean; onClose: ()
                 </div>
                 <div>
                   <h2 style={{ fontSize: 17, fontWeight: 800, color: 'var(--ink)', letterSpacing: '-0.02em', margin: 0 }}>Set Budget</h2>
-                  <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.62)', margin: '2px 0 0' }}>Monthly spending limit</p>
+                  <p style={{ fontSize: 12, color: 'var(--ink-secondary)', margin: '2px 0 0' }}>Monthly spending limit</p>
                 </div>
               </div>
               <button onClick={onClose} style={{ width: 30, height: 30, borderRadius: 9, border: '1px solid var(--warm-border)', background: 'var(--parchment)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'rgba(255,255,255,0.75)', fontSize: 14 }}>✕</button>
@@ -111,25 +111,25 @@ function SetBudgetModal({ open, onClose, onSaved }: { open: boolean; onClose: ()
                 <Field label="Month">
                   <input type="number" min="1" max="12" value={form.month}
                     onChange={e => setForm(p => ({ ...p, month: parseInt(e.target.value) }))}
-                    style={{ width: '100%', padding: '11px 14px', borderRadius: 12, background: 'var(--parchment)', border: '1px solid rgba(255,255,255,0.07)', color: 'var(--ink)', fontSize: 14, outline: 'none' }}
+                    style={{ width: '100%', padding: '11px 14px', borderRadius: 12, background: 'var(--parchment)', border: '1px solid var(--warm-border)', color: 'var(--ink)', fontSize: 14, outline: 'none' }}
                   />
                 </Field>
                 <Field label="Year">
                   <input type="number" value={form.year}
                     onChange={e => setForm(p => ({ ...p, year: parseInt(e.target.value) }))}
-                    style={{ width: '100%', padding: '11px 14px', borderRadius: 12, background: 'var(--parchment)', border: '1px solid rgba(255,255,255,0.07)', color: 'var(--ink)', fontSize: 14, outline: 'none' }}
+                    style={{ width: '100%', padding: '11px 14px', borderRadius: 12, background: 'var(--parchment)', border: '1px solid var(--warm-border)', color: 'var(--ink)', fontSize: 14, outline: 'none' }}
                   />
                 </Field>
               </div>
 
-              {err && <div style={{ padding: '9px 13px', borderRadius: 10, background: 'rgba(255,60,60,0.07)', border: '1px solid rgba(255,60,60,0.15)', fontSize: 12, color: 'rgba(255,120,120,0.9)' }}>{err}</div>}
+              {err && <div style={{ padding: '9px 13px', borderRadius: 10, background: 'var(--rose-dim)', border: '1px solid rgba(196,54,42,0.18)', fontSize: 12, color: 'var(--rose)' }}>{err}</div>}
 
               <motion.button type="submit" disabled={submitting} whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
                 style={{
                   marginTop: 4, padding: '13px', borderRadius: 14, border: 'none',
                   cursor: submitting ? 'default' : 'pointer',
-                  background: submitting ? 'rgba(255,255,255,0.07)' : '#fff',
-                  color: submitting ? 'rgba(255,255,255,0.3)' : '#000',
+                  background: submitting ? 'var(--electric-dim)' : 'var(--electric)',
+                  color: submitting ? 'var(--ink-muted)' : '#fff',
                   fontSize: 14, fontWeight: 700,
                   display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
                 }}>
@@ -177,7 +177,7 @@ export default function Budget() {
             </div>
             <div>
               <h1 style={{ fontSize: 24, fontWeight: 900, color: 'var(--ink)', letterSpacing: '-0.03em', margin: 0, lineHeight: 1.1 }}>Budget</h1>
-              <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.62)', margin: '3px 0 0' }}>Monthly spending limits & tracking</p>
+              <p style={{ fontSize: 13, color: 'var(--ink-secondary)', margin: '3px 0 0' }}>Monthly spending limits & tracking</p>
             </div>
           </div>
           <motion.button whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }} onClick={() => setModal(true)}
@@ -207,7 +207,7 @@ export default function Budget() {
               </div>
               {s.isCount
                 ? <div style={{ fontSize: 26, fontWeight: 800, color: s.value > 0 ? 'rgba(255,200,100,0.9)' : '#fff', letterSpacing: '-0.03em' }}>{s.value}</div>
-                : <AnimatedCounter value={s.value} prefix="$" className="text-[26px] font-[800] text-white tracking-[-0.03em]" />
+                : <AnimatedCounter value={s.value} prefix="$" className="text-[26px] font-[800] text-[#181510] tracking-[-0.03em]" />
               }
             </motion.div>
           ))}
@@ -268,9 +268,9 @@ export default function Budget() {
                         <span style={{ fontSize: 15, fontWeight: 700, color: 'var(--ink)', letterSpacing: '-0.01em' }}>{b.category}</span>
                       </div>
                       {isOver
-                        ? <span style={{ fontSize: 10, fontWeight: 800, padding: '3px 9px', borderRadius: 20, background: 'rgba(255,80,50,0.14)', color: 'rgba(255,160,140,1)', border: '1px solid rgba(255,80,50,0.3)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Over</span>
+                        ? <span style={{ fontSize: 10, fontWeight: 800, padding: '3px 9px', borderRadius: 20, background: 'var(--rose-dim)', color: 'var(--rose)', border: '1px solid rgba(196,54,42,0.3)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Over</span>
                         : isWarn
-                        ? <span style={{ fontSize: 10, fontWeight: 800, padding: '3px 9px', borderRadius: 20, background: 'rgba(255,180,50,0.14)', color: 'rgba(255,210,140,1)', border: '1px solid rgba(255,180,50,0.3)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Watch</span>
+                        ? <span style={{ fontSize: 10, fontWeight: 800, padding: '3px 9px', borderRadius: 20, background: 'var(--amber-dim)', color: 'var(--amber)', border: '1px solid var(--amber-border)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Watch</span>
                         : <span style={{ fontSize: 10, fontWeight: 800, padding: '3px 9px', borderRadius: 20, background: 'rgba(80,220,120,0.12)', color: 'rgba(180,240,200,1)', border: '1px solid rgba(80,220,120,0.25)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>On track</span>
                       }
                     </div>
@@ -305,7 +305,7 @@ export default function Budget() {
 
                     <div style={{ fontSize: 11, color: 'var(--ink-secondary)', fontWeight: 500 }}>
                       {isOver
-                        ? <span style={{ color: 'rgba(255,180,180,1)', fontWeight: 700 }}>Over by ${Math.abs(b.remaining).toLocaleString()}</span>
+                        ? <span style={{ color: 'var(--rose)', fontWeight: 700 }}>Over by ${Math.abs(b.remaining).toLocaleString()}</span>
                         : <>Remaining <span style={{ color: 'var(--ink)', fontWeight: 700 }}>${Math.max(b.remaining, 0).toLocaleString()}</span></>
                       }
                     </div>

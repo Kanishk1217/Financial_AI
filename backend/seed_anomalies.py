@@ -10,13 +10,21 @@ This script inserts:
   - A small baseline of "normal" spending for the prior week.
   - Larger spikes in the current week so several categories trip the rule.
 """
-import sys, io
+import os, sys, io
 import psycopg2
 from datetime import date, timedelta
 
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
 
-DB = dict(host="localhost", database="finance_tracker", user="postgres", password="KP_123456")
+# Honor DATABASE_URL (e.g. a Neon connection string) so this can seed the
+# deployed DB; fall back to local Postgres for local-dev seeding.
+_DB_URL = os.getenv("DATABASE_URL")
+if _DB_URL:
+    if _DB_URL.startswith("postgresql://"):
+        _DB_URL = "postgres://" + _DB_URL[len("postgresql://"):]
+    DB = _DB_URL  # psycopg2.connect accepts a DSN string directly
+else:
+    DB = dict(host="localhost", database="finance_tracker", user="postgres", password="KP_123456")
 
 # Today is 2026-05-14 (per memory). Pick the past 14 days dynamically.
 TODAY = date(2026, 5, 14)
@@ -87,7 +95,8 @@ def seed_for_user(conn, uid: int, email: str):
     print(f"  [{email}] inserted {inserted} rows across {len(PLAN)} categories")
 
 def main():
-    with psycopg2.connect(**DB) as conn:
+    _conn = psycopg2.connect(DB) if isinstance(DB, str) else psycopg2.connect(**DB)
+    with _conn as conn:
         cur = conn.cursor()
         cur.execute("SELECT id, email FROM users WHERE id IN (1, 3) ORDER BY id")
         users = cur.fetchall()

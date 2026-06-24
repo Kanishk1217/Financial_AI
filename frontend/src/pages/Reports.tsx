@@ -86,7 +86,7 @@ export default function Reports() {
             </div>
             <div>
               <h1 style={{ fontSize: 24, fontWeight: 900, color: 'var(--ink)', letterSpacing: '-0.03em', margin: 0, lineHeight: 1.1 }}>Reports</h1>
-              <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.62)', margin: '3px 0 0' }}>Monthly financial breakdown</p>
+              <p style={{ fontSize: 13, color: 'var(--ink-secondary)', margin: '3px 0 0' }}>Monthly financial breakdown</p>
             </div>
           </div>
 
@@ -132,7 +132,7 @@ export default function Reports() {
         ) : !report || (report.total_income === 0 && report.total_expenses === 0) ? (
           <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
             style={{ textAlign: 'center', padding: '80px 24px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <div style={{ width: 54, height: 54, borderRadius: 18, background: 'var(--parchment)', border: '1px solid rgba(255,255,255,0.07)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 16 }}>
+            <div style={{ width: 54, height: 54, borderRadius: 18, background: 'var(--parchment)', border: '1px solid var(--warm-border)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 16 }}>
               <FileText size={22} style={{ color: 'var(--ink-secondary)' }} />
             </div>
             <h3 style={{ fontSize: 16, fontWeight: 700, color: 'var(--ink)', margin: '0 0 6px', letterSpacing: '-0.02em' }}>No data for this period</h3>
@@ -159,7 +159,7 @@ export default function Reports() {
                       </div>
                     </div>
                     <AnimatedCounter value={s.value} prefix={s.prefix} suffix={s.suffix} decimals={s.decimals ?? 0}
-                      className="text-[24px] font-[800] text-white tracking-[-0.03em]" />
+                      className="text-[24px] font-[800] text-[#181510] tracking-[-0.03em]" />
                   </GlowCard>
                 </motion.div>
               ))}
@@ -173,9 +173,9 @@ export default function Reports() {
                 <h2 style={{ fontSize: 11, fontWeight: 700, color: 'var(--ink-muted)', marginBottom: 18, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Spending by Category</h2>
                 <ResponsiveContainer width="100%" height={200}>
                   <BarChart data={catData} barSize={22} barGap={4}>
-                    <XAxis dataKey="name" tick={{ fill: 'rgba(255,255,255,0.45)', fontSize: 10 }} axisLine={false} tickLine={false} />
+                    <XAxis dataKey="name" tick={{ fill: 'rgba(24,21,16,0.45)', fontSize: 10 }} axisLine={false} tickLine={false} />
                     <YAxis hide />
-                    <Tooltip content={<CustomTooltip />} cursor={{ fill: 'rgba(255,255,255,0.04)' }} />
+                    <Tooltip content={<CustomTooltip />} cursor={{ fill: 'rgba(24,21,16,0.04)' }} />
                     <defs>
                       <linearGradient id="barGrad" x1="0" y1="0" x2="0" y2="1">
                         <stop offset="0%" stopColor="#c4b5fd" stopOpacity={0.9} />
