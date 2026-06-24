@@ -98,10 +98,13 @@ def main():
     _conn = psycopg2.connect(DB) if isinstance(DB, str) else psycopg2.connect(**DB)
     with _conn as conn:
         cur = conn.cursor()
-        cur.execute("SELECT id, email FROM users WHERE id IN (1, 3) ORDER BY id")
+        cur.execute(
+            "SELECT id, email FROM users WHERE email IN (%s, %s) ORDER BY id",
+            ("test@test.com", "kanishkpansari1217@gmail.com"),
+        )
         users = cur.fetchall()
         if not users:
-            print("No demo users found (expected user_id 1 and 3).")
+            print("No demo users found (expected test@test.com / kanishkpansari1217@gmail.com).")
             return
         for uid, email in users:
             seed_for_user(conn, uid, email)
