@@ -26,34 +26,35 @@ if _DB_URL:
 else:
     DB = dict(host="localhost", database="finance_tracker", user="postgres", password="KP_123456")
 
-# Today is 2026-05-14 (per memory). Pick the past 14 days dynamically.
-TODAY = date(2026, 5, 14)
-THIS_WEEK_START = TODAY - timedelta(days=6)  # 2026-05-08 .. 2026-05-14
-PREV_WEEK_START = TODAY - timedelta(days=13) # 2026-05-01 .. 2026-05-07
+# Anchor on the real current date so the spikes land inside the /anomalies
+# detection window (last 7 days vs the 7 before that, ending today).
+TODAY = date.today()
+THIS_WEEK_START = TODAY - timedelta(days=6)   # last 7 days incl. today
+PREV_WEEK_START = TODAY - timedelta(days=13)  # the 7 days before that
 
-# Per-category baseline (prev week) and spike (this week)
+# Per-category baseline (prev week) and spike (this week). Amounts are INR-scale
+# and deliberately large so this_week clearly exceeds 2× prev_week even on top of
+# the regular spending that seed_data.py lays down across both weeks.
 # (category, prev_week_txs [list of (offset_days, amount, desc)], this_week_txs ...)
 PLAN = {
     "Food": {
-        "prev": [(0, 12, "Starbucks"), (3, 18, "Subway"), (5, 14, "Chipotle")],
-        # ~5x prev: 44 -> 240
-        "this": [(0, 95, "Sushi Omakase"), (2, 68, "Steakhouse dinner"),
-                 (4, 42, "Wine bar"), (6, 35, "Pizza delivery")],
+        "prev": [(0, 400, "Cafe Coffee Day"), (3, 600, "Subway")],
+        "this": [(0, 9000, "Sushi Omakase party"), (2, 7000, "Steakhouse dinner"),
+                 (5, 4500, "Wine bar tab")],
     },
     "Shopping": {
-        "prev": [(1, 38, "Target")],
-        # ~6x: 38 -> 230
-        "this": [(2, 129, "Amazon — gadgets"), (5, 102, "Best Buy headphones")],
+        "prev": [(1, 1200, "Local store")],
+        "this": [(2, 32000, "Amazon — electronics splurge"),
+                 (5, 22000, "Best Buy — monitor & headphones")],
     },
     "Entertainment": {
-        "prev": [(2, 12, "Spotify")],
-        # ~4x: 12 -> 52
-        "this": [(1, 28, "Concert tickets"), (4, 24, "Theatre night")],
+        "prev": [(2, 119, "Spotify Premium")],
+        "this": [(1, 6500, "Concert VIP tickets"), (4, 4200, "Theatre night")],
     },
     "Transport": {
-        # NOT an anomaly: roughly flat between weeks (~28 prev, ~32 this)
-        "prev": [(0, 14, "Uber pool"), (4, 14, "Uber pool")],
-        "this": [(2, 16, "Uber pool"), (5, 16, "Uber pool")],
+        # NOT an anomaly: roughly flat between weeks.
+        "prev": [(0, 300, "Uber pool"), (4, 320, "Uber pool")],
+        "this": [(2, 340, "Uber pool"), (5, 360, "Uber pool")],
     },
 }
 

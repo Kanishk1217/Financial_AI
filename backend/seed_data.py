@@ -3,6 +3,7 @@ Seed 3 months of realistic financial data for FinanceAI demo users.
 Run: python seed_data.py
 """
 import os
+import calendar
 from sqlalchemy import create_engine, text
 from datetime import date
 
@@ -31,71 +32,77 @@ def ins(conn, uid, amount, category, description, d):
     )
 
 
+def _months_back(d, n):
+    """(year, month) n calendar months before d's month."""
+    m, y = d.month - n, d.year
+    while m <= 0:
+        m += 12
+        y -= 1
+    return y, m
+
+
 def seed_transactions(conn, uid, salary):
     rent   = 25000 if salary >= 80000 else 20000
     scale  = 1.0   if salary >= 80000 else 0.78
+    today  = date.today()
 
-    # Three full months
-    for yr, mo, max_day in [(2026, 2, 28), (2026, 3, 31), (2026, 4, 30)]:
-        d = lambda day: date(yr, mo, min(day, max_day))
+    # Anchor on the current date so the demo is always "fresh": the three
+    # prior months are seeded in full, the current month up to today.
+    months = [(_months_back(today, k)) for k in (3, 2, 1)]
+    months = [(y, m, calendar.monthrange(y, m)[1]) for (y, m) in months]
+    months.append((today.year, today.month, today.day))  # current month, capped at today
 
-        # Income
-        ins(conn, uid, -salary,                    "Income",        "Monthly Salary Credit",      d(1))
+    for yr, mo, cap in months:
+        max_day = calendar.monthrange(yr, mo)[1]
 
-        # Housing
-        ins(conn, uid, rent,                        "Housing",       "Monthly Rent Payment",       d(2))
+        def tx(day, amount, category, description):
+            # Only insert days that have actually happened in the current month.
+            if day <= cap:
+                ins(conn, uid, amount, category, description, date(yr, mo, min(day, max_day)))
+
+        # Income / Housing
+        tx(1,  -salary, "Income",   "Monthly Salary Credit")
+        tx(2,  rent,    "Housing",  "Monthly Rent Payment")
 
         # Utilities
-        ins(conn, uid, 999,                         "Utilities",     "ACT Broadband Internet",     d(3))
-        ins(conn, uid, 399,                         "Utilities",     "Jio Mobile Recharge",        d(5))
-        ins(conn, uid, round((1200 + mo*40)*scale), "Utilities",     "BESCOM Electricity Bill",    d(10))
+        tx(3,  999, "Utilities", "ACT Broadband Internet")
+        tx(5,  399, "Utilities", "Jio Mobile Recharge")
+        tx(10, round((1200 + mo * 40) * scale), "Utilities", "BESCOM Electricity Bill")
 
         # Food — grocery
-        ins(conn, uid, round(3400 * scale),         "Food",          "BigBasket Grocery",          d(6))
-
+        tx(6,  round(3400 * scale), "Food", "BigBasket Grocery")
         # Food — delivery (Swiggy repeated so it shows as recurring)
         for day in [8, 13, 17, 22, 27]:
-            ins(conn, uid, round((420 + day*7)*scale), "Food",       "Swiggy Food Delivery",       d(day))
-
+            tx(day, round((420 + day * 7) * scale), "Food", "Swiggy Food Delivery")
         # Food — dining out
         for day in [9, 16, 23]:
-            ins(conn, uid, round(1700 * scale),     "Food",          "Restaurant Dining",          d(day))
-
+            tx(day, round(1700 * scale), "Food", "Restaurant Dining")
         # Food — coffee
         for day in [11, 19, 26]:
-            ins(conn, uid, round(190 * scale),      "Food",          "Starbucks Coffee",           d(day))
+            tx(day, round(190 * scale), "Food", "Starbucks Coffee")
 
         # Transport — Uber (repeated = recurring)
         for day in [7, 10, 14, 18, 22, 28]:
-            ins(conn, uid, round(370 * scale),      "Transport",     "Uber Cab",                   d(day))
-        ins(conn, uid, round(2100 * scale),         "Transport",     "HPCL Fuel",                  d(20))
+            tx(day, round(370 * scale), "Transport", "Uber Cab")
+        tx(20, round(2100 * scale), "Transport", "HPCL Fuel")
 
         # Entertainment — subscriptions (recurring)
-        ins(conn, uid, 649,                         "Entertainment", "Netflix Subscription",       d(12))
-        ins(conn, uid, 119,                         "Entertainment", "Spotify Premium",            d(22))
-        if mo in [2, 4]:
-            ins(conn, uid, round(750 * scale),      "Entertainment", "PVR Cinema Tickets",         d(14))
+        tx(12, 649, "Entertainment", "Netflix Subscription")
+        tx(22, 119, "Entertainment", "Spotify Premium")
+        tx(14, round(750 * scale), "Entertainment", "PVR Cinema Tickets")
 
         # Health — gym (recurring)
-        ins(conn, uid, round(1500 * scale),         "Health",        "Cult.fit Gym Membership",    d(15))
-        ins(conn, uid, round(480 * scale),          "Health",        "Apollo Pharmacy",            d(18))
+        tx(15, round(1500 * scale), "Health", "Cult.fit Gym Membership")
+        tx(18, round(480 * scale),  "Health", "Apollo Pharmacy")
 
         # Shopping
-        ins(conn, uid, round(3400 * scale),         "Shopping",      "Amazon Shopping",            d(16))
-        if mo in [3, 4]:
-            ins(conn, uid, round(2800 * scale),     "Shopping",      "Flipkart Shopping",          d(25))
-
-    # May partial (1–7)
-    ins(conn, uid, -salary,              "Income",    "Monthly Salary Credit",   date(2026, 5, 1))
-    ins(conn, uid, rent,                 "Housing",   "Monthly Rent Payment",    date(2026, 5, 2))
-    ins(conn, uid, 999,                  "Utilities", "ACT Broadband Internet",  date(2026, 5, 3))
-    ins(conn, uid, round(3400*scale),    "Food",      "BigBasket Grocery",       date(2026, 5, 5))
-    ins(conn, uid, round(420*scale),     "Food",      "Swiggy Food Delivery",    date(2026, 5, 6))
-    ins(conn, uid, round(370*scale),     "Transport", "Uber Cab",                date(2026, 5, 7))
+        tx(16, round(3400 * scale), "Shopping", "Amazon Shopping")
+        tx(25, round(2800 * scale), "Shopping", "Flipkart Shopping")
 
 
 def seed_budgets(conn, uid):
-    m, y = 5, 2026
+    today = date.today()
+    m, y = today.month, today.year
     budgets = [
         ("Food",          15000),
         ("Shopping",       8000),

@@ -64,9 +64,9 @@ export function Dropdown<T extends string | number>({
           padding: `${padY}px ${padX}px`,
           paddingRight: padX + 18,
           borderRadius: 12,
-          background: open || focused ? 'rgba(255,255,255,0.07)' : 'rgba(255,255,255,0.04)',
-          border: `1px solid ${open || focused ? 'rgba(255,255,255,0.18)' : 'rgba(255,255,255,0.09)'}`,
-          color: selected ? '#fff' : 'rgba(255,255,255,0.5)',
+          background: open || focused ? 'var(--surface-hover)' : 'var(--surface)',
+          border: `1px solid ${open || focused ? 'var(--amber)' : 'var(--warm-border-strong)'}`,
+          color: selected ? 'var(--ink)' : 'var(--ink-muted)',
           fontSize,
           outline: 'none',
           cursor: 'pointer',
@@ -84,7 +84,7 @@ export function Dropdown<T extends string | number>({
         <ChevronDown
           size={14}
           style={{
-            color: 'rgba(255,255,255,0.55)',
+            color: 'var(--ink-muted)',
             flexShrink: 0,
             transform: open ? 'rotate(180deg)' : 'rotate(0deg)',
             transition: 'transform 0.2s',
@@ -110,10 +110,9 @@ export function Dropdown<T extends string | number>({
               overflowY: 'auto',
               padding: 4,
               borderRadius: 12,
-              background: 'rgba(15,15,17,0.98)',
-              backdropFilter: 'blur(24px)',
-              border: '1px solid rgba(255,255,255,0.12)',
-              boxShadow: '0 20px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.04)',
+              background: 'var(--surface)',
+              border: '1px solid var(--warm-border)',
+              boxShadow: 'var(--shadow-lg)',
             }}
           >
             {options.map(o => {
@@ -129,8 +128,8 @@ export function Dropdown<T extends string | number>({
                     padding: `${size === 'sm' ? 8 : 10}px 12px`,
                     borderRadius: 8,
                     border: 'none',
-                    background: isSel ? 'rgba(255,255,255,0.08)' : 'transparent',
-                    color: isSel ? '#fff' : 'rgba(255,255,255,0.8)',
+                    background: isSel ? 'var(--parchment-deep)' : 'transparent',
+                    color: isSel ? 'var(--ink)' : 'var(--ink-secondary)',
                     fontSize,
                     textAlign: 'left',
                     cursor: 'pointer',
@@ -141,14 +140,14 @@ export function Dropdown<T extends string | number>({
                     transition: 'background 0.12s, color 0.12s',
                   }}
                   onMouseEnter={e => {
-                    if (!isSel) e.currentTarget.style.background = 'rgba(255,255,255,0.05)'
+                    if (!isSel) e.currentTarget.style.background = 'var(--surface-hover)'
                   }}
                   onMouseLeave={e => {
                     if (!isSel) e.currentTarget.style.background = 'transparent'
                   }}
                 >
                   <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{o.label}</span>
-                  {isSel && <Check size={13} style={{ color: 'rgba(255,255,255,0.9)', flexShrink: 0 }} />}
+                  {isSel && <Check size={13} style={{ color: 'var(--ink)', flexShrink: 0 }} />}
                 </button>
               )
             })}

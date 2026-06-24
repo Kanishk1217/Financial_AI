@@ -198,7 +198,7 @@ export default function Budget() {
           ].map((s, i) => (
             <motion.div key={s.label}
               initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 + i * 0.05 }}
-              style={{ padding: '18px 20px', borderRadius: 18, background: 'var(--surface-hover)', border: '1px solid rgba(255,255,255,0.07)' }}>
+              style={{ padding: '18px 20px', borderRadius: 18, background: 'var(--surface-hover)', border: '1px solid var(--warm-border)' }}>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
                 <span style={{ fontSize: 11, fontWeight: 600, color: 'var(--ink-secondary)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>{s.label}</span>
                 <div style={{ width: 28, height: 28, borderRadius: 9, background: 'var(--parchment)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -206,7 +206,7 @@ export default function Budget() {
                 </div>
               </div>
               {s.isCount
-                ? <div style={{ fontSize: 26, fontWeight: 800, color: s.value > 0 ? 'rgba(255,200,100,0.9)' : '#fff', letterSpacing: '-0.03em' }}>{s.value}</div>
+                ? <div style={{ fontSize: 26, fontWeight: 800, color: s.value > 0 ? 'var(--amber)' : 'var(--ink)', letterSpacing: '-0.03em' }}>{s.value}</div>
                 : <AnimatedCounter value={s.value} prefix="$" className="text-[26px] font-[800] text-[#181510] tracking-[-0.03em]" />
               }
             </motion.div>
